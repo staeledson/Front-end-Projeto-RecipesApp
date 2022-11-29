@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 
-function Meals() {
+function Profile() {
   return (
     <div className="meals-page">
       <Footer />
@@ -9,4 +9,4 @@ function Meals() {
   );
 }
 
-export default Meals;
+export default Profile;
