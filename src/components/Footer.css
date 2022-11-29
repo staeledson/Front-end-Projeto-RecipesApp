@@ -1,0 +1,20 @@
+.footer {
+  background-color: rgba(65, 25, 127, 1);
+  bottom: 0;
+  display: flex;
+  height: 3.25em;
+  justify-content: space-around;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+}
+
+.btn-drinks {
+  background-color: rgb(252, 196, 54);
+  margin: 2px;
+}
+
+.btn-meals {
+  background-color: rgb(252, 196, 54);
+  margin: 2px;
+}
