@@ -5,16 +5,19 @@
   height: 3.25em;
   justify-content: space-around;
   position: fixed;
-  text-align: center;
   width: 100%;
 }
 
-.btn-drinks {
+.link-drinks {
+  align-self: center;
   background-color: rgb(252, 196, 54);
-  margin: 2px;
+  border-radius: 2px;
+  padding: 2px;
 }
 
-.btn-meals {
+.link-meals {
+  align-self: center;
   background-color: rgb(252, 196, 54);
-  margin: 2px;
+  border-radius: 2px;
+  padding: 2px;
 }
