@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setPassWord] = useState('');
+  const history = useHistory();
   // const [disable, setDisable] = useState(true);
 
   const magicNumber = 6;
@@ -12,6 +14,12 @@ function Login() {
   //     setDisable(false);
   //   }
   // };
+
+  const onClick = () => {
+    const user = { email: inputEmail };
+    localStorage.setItem('user', JSON.stringify(user));
+    history.push('/meals');
+  };
 
   return (
     <div>
@@ -44,6 +52,7 @@ function Login() {
         // onClick={ this.onClick }
         data-testid="login-submit-btn"
         disabled={ !(inputEmail.match(/\S+@\S+\.\S+/i)) || (inputPassword.length < magicNumber) }
+        onClick={ (() => onClick()) }
       >
         Entrar
       </button>
