@@ -8,10 +8,15 @@ function Recipes() {
   const history = useHistory();
   const { pathname } = history.location;
 
-  console.log(pathname);
+  if (pathname === '/drinks' && searchedDrinks.length === 1) {
+    history.push(`/drinks/:${searchedDrinks[0].idIngredient}`);
+  }
+  if (pathname === '/meals' && searchedMeals?.length === 1) {
+    history.push(`/meals/:${searchedMeals[0].idMeal}`);
+  }
+
   return (
     <div>
-      <h1>Recipes Page</h1>
       <SearchBar />
       <div>
         {pathname === '/meals'
