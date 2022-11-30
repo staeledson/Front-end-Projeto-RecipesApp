@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import ContextApp from '../context/ContextApp';
 
@@ -17,6 +18,7 @@ function Recipes() {
 
   return (
     <div>
+      <Header />
       <SearchBar />
       <div>
         {pathname === '/meals'
