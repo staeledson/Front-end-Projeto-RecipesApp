@@ -27,6 +27,7 @@ function SearchBar() {
   const handleSearchClick = async () => {
     const d = await fetchDrinks(searchOptions);
     const m = await fetchMeals(searchOptions);
+    console.log(searchOptions);
     setSearchedDrinks(d);
     setSearchedMeals(m);
   };

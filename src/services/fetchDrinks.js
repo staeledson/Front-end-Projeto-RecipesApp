@@ -4,9 +4,10 @@ function fetchDrinks({ inputSearch, radioChecked }) {
     try {
       const response = await fetch(URL);
       const { ingredients } = await response.json();
+      console.log(ingredients);
       return ingredients;
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(error);
     }
   }
 
@@ -16,7 +17,7 @@ function fetchDrinks({ inputSearch, radioChecked }) {
   case 'name':
     return fetchData(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`);
   case 'first-letter':
-    return (inputSearch.length === 1) ? fetchData(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`) : console.log('chamar global alert');
+    return (inputSearch.length === 1) ? fetchData(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`) : global.alert('Your search must have only 1 (one) character');
   default:
     break;
   }
