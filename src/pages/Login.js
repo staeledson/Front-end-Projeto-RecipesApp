@@ -7,7 +7,7 @@ function Login() {
   const history = useHistory();
   // const [disable, setDisable] = useState(true);
 
-  const magicNumber = 6;
+  const magicNumber = 7;
   // const validatingEmailPassword = () => {
   //   const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+?$/i;
   //   if (regex.test(inputEmail) && inputPassword.length === magicNumber) {
