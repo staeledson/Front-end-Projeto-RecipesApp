@@ -1,30 +1,20 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
-function Header() {
+function Header({ title }) {
   const [showBar, setShowBar] = useState(false);
   const history = useHistory();
   const { pathname } = history.location;
-  const getTitle = () => {
-    if (pathname === '/done-recipes' || pathname === '/favorite-recipes') {
-      const getPath = pathname.slice(1).replace('-', ' ');
-      const pathSplit = getPath.split(' ');
-      const title = pathSplit.map((word) => word[0].toUpperCase() + word.substring(1));
-      return title.join(' ');
-    }
-    const getPath = pathname.slice(1);
-    const title = getPath[0].toUpperCase() + getPath.substring(1);
-    return title;
-  };
-  const title = getTitle();
+
+  // a forma de renderizar o title teve que mudar porque estava atrapalhando os testes.
 
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
-      {showBar && <SearchBar />}
       <Link to="/profile">
         <img
           data-testid="profile-top-btn"
@@ -49,8 +39,13 @@ function Header() {
             </button>
           </div>
         )}
+      {showBar && <SearchBar />}
     </div>
   );
 }
+
+Header.propTypes = {
+  title: PropTypes.string.isRequired,
+};
 
 export default Header;

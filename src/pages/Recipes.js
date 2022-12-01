@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
 
@@ -17,7 +18,7 @@ function Recipes() {
 
   return (
     <div>
-      <Header />
+      <Header title={ pathname === '/meals' ? 'Meals' : 'Drinks' } />
       <div>
         {pathname === '/meals'
           && searchedMeals?.map((m, index) => (
@@ -40,6 +41,7 @@ function Recipes() {
               <p>{d.strABV}</p> */}
             </div>))}
       </div>
+      <Footer />
     </div>
   );
 }

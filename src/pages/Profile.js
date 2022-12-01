@@ -5,7 +5,7 @@ import Header from '../components/Header';
 function Profile() {
   return (
     <div className="meals-page">
-      <Header />
+      <Header title="Profile" />
       <Footer />
     </div>
   );
