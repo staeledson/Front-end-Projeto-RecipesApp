@@ -12,6 +12,7 @@ function SearchBar() {
     setSearchOptions,
     setSearchedDrinks,
     setSearchedMeals,
+    setIsLoading,
   } = useContext(ContextApp);
 
   const handleSearch = ({ target }) => {
@@ -32,15 +33,14 @@ function SearchBar() {
     if (searchOptions.inputSearch.length > 1 && searchOptions
       .radioChecked === 'first-letter') {
       global.alert('Your search must have only 1 (one) character');
-      console.log('if');
     } else if (pathname === '/meals') {
       const meals = await fetchMeals(searchOptions);
       setSearchedMeals(meals);
-      console.log('else if');
+      setIsLoading(false);
     } else {
       const drinks = await fetchDrinks(searchOptions);
       setSearchedDrinks(drinks);
-      console.log('else');
+      setIsLoading(false);
     }
   };
 

@@ -5,6 +5,7 @@ import ContextApp from './ContextApp';
 export default function ContextAppProvider({ children }) {
   const [searchedMeals, setSearchedMeals] = useState([]);
   const [searchedDrinks, setSearchedDrinks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchOptions, setSearchOptions] = useState({
     inputSearch: '',
     radioChecked: 'ingredient',
@@ -18,6 +19,8 @@ export default function ContextAppProvider({ children }) {
       setSearchedDrinks,
       searchOptions,
       setSearchOptions,
+      isLoading,
+      setIsLoading,
     }),
     [
       searchedMeals,
@@ -26,6 +29,8 @@ export default function ContextAppProvider({ children }) {
       setSearchedDrinks,
       searchOptions,
       setSearchOptions,
+      isLoading,
+      setIsLoading,
     ],
   );
   return (

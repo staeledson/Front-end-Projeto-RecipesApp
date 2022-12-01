@@ -4,15 +4,15 @@ import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
 
 function Recipes() {
-  const { searchedMeals, searchedDrinks } = useContext(ContextApp);
+  const { searchedMeals, searchedDrinks, isLoading } = useContext(ContextApp);
   const history = useHistory();
   const { pathname } = history.location;
 
-  if (pathname === '/drinks' && searchedDrinks.length === 1) {
-    history.push(`/drinks/:${searchedDrinks[0].idIngredient}`);
+  if (pathname === '/drinks' && searchedDrinks.length === 1 && !isLoading) {
+    history.push(`/drinks/${searchedDrinks[0].idIngredient}`);
   }
-  if (pathname === '/meals' && searchedMeals?.length === 1) {
-    history.push(`/meals/:${searchedMeals[0].idMeal}`);
+  if (pathname === '/meals' && searchedMeals?.length === 1 && !isLoading) {
+    history.push(`/meals/${searchedMeals[0].idMeal}`);
   }
 
   return (
