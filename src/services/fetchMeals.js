@@ -17,7 +17,7 @@ function fetchMeals({ inputSearch, radioChecked }) {
     console.log(radioChecked);
     return fetchData(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputSearch}`);
   case 'first-letter':
-    return (inputSearch.length === 1) ? fetchData(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputSearch}`) : global.alert('Your search must have only 1 (one) character');
+    return (inputSearch.length === 1) && fetchData(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputSearch}`);
   default:
     break;
   }

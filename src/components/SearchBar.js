@@ -29,12 +29,18 @@ function SearchBar() {
   };
 
   const handleSearchClick = async () => {
-    if (pathname === '/meals') {
+    if (searchOptions.inputSearch.length > 1 && searchOptions
+      .radioChecked === 'first-letter') {
+      global.alert('Your search must have only 1 (one) character');
+      console.log('if');
+    } else if (pathname === '/meals') {
       const meals = await fetchMeals(searchOptions);
       setSearchedMeals(meals);
+      console.log('else if');
     } else {
       const drinks = await fetchDrinks(searchOptions);
       setSearchedDrinks(drinks);
+      console.log('else');
     }
   };
 

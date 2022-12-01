@@ -8,15 +8,28 @@ function Header() {
   const [showBar, setShowBar] = useState(false);
   const history = useHistory();
   const { pathname } = history.location;
+  const getTitle = () => {
+    if (pathname === '/done-recipes' || pathname === '/favorite-recipes') {
+      const getPath = pathname.slice(1).replace('-', ' ');
+      const pathSplit = getPath.split(' ');
+      const title = pathSplit.map((word) => word[0].toUpperCase() + word.substring(1));
+      return title.join(' ');
+    }
+    const getPath = pathname.slice(1);
+    const title = getPath[0].toUpperCase() + getPath.substring(1);
+    return title;
+  };
+  const title = getTitle();
+
   return (
     <div>
-      <h1 data-testid="page-title">{pathname === '/meals' ? 'Meals' : 'Drinks'}</h1>
-      {/* {showBar && <SearchBar />} */}
+      <h1 data-testid="page-title">{title}</h1>
+      {showBar && <SearchBar />}
       <Link to="/profile">
         <img
           data-testid="profile-top-btn"
           src={ profileIcon }
-          alt="ícone de perfil"
+          alt="imagem de um ícone de perfil"
         />
       </Link>
       {pathname !== '/profile'
@@ -28,7 +41,11 @@ function Header() {
               type="button"
               onClick={ () => setShowBar(!showBar) }
             >
-              <img data-testid="search-top-btn" src={ searchIcon } alt="logoSearch" />
+              <img
+                data-testid="search-top-btn"
+                src={ searchIcon }
+                alt="imagem de uma lupa"
+              />
             </button>
           </div>
         )}
