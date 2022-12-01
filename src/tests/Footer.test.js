@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Recipes from '../pages/Recipes';
-import renderWithRouter from '../renderWithRouter';
+import renderWithRouter from './helpers/renderWith';
 import Profile from '../pages/Profile';
 
 describe('Testa o Footer', () => {

@@ -4,16 +4,16 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import AppProvider from './context/AppProvider';
+import ContextAppProvider from './context/ContextAppProvider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
-    <AppProvider>
+    <ContextAppProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </AppProvider>,
+    </ContextAppProvider>,
 
   );
 
