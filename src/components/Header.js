@@ -1,20 +1,35 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
-function Header({ title }) {
+function Header() {
   const [showBar, setShowBar] = useState(false);
   const history = useHistory();
   const { pathname } = history.location;
+  const getTitle = () => {
+    if (pathname === '/done-recipes' || pathname === '/favorite-recipes') {
+      const getPath = pathname.slice(1).replace('-', ' ');
+      const pathSplit = getPath.split(' ');
+      const title = pathSplit.map((word) => word[0].toUpperCase() + word.substring(1));
+      return title.join(' ');
+    }
+    const getPath = pathname.slice(1);
+    const title = getPath[0].toUpperCase() + getPath.substring(1);
+    return title;
+  };
+  const title = getTitle();
+
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
+      {showBar && <SearchBar />}
       <Link to="/profile">
-        <image
+        <img
           data-testid="profile-top-btn"
           src={ profileIcon }
+          alt="imagem de um ícone de perfil"
         />
       </Link>
       {pathname !== '/profile'
@@ -26,16 +41,16 @@ function Header({ title }) {
               type="button"
               onClick={ () => setShowBar(!showBar) }
             >
-              <img data-testid="search-top-btn" src={ searchIcon } alt="logoSearch" />
+              <img
+                data-testid="search-top-btn"
+                src={ searchIcon }
+                alt="imagem de uma lupa"
+              />
             </button>
           </div>
         )}
     </div>
   );
 }
-
-Header.propTypes = {
-  title: PropTypes.string.isRequired,
-};
 
 export default Header;
