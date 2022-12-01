@@ -21,13 +21,13 @@ function Recipes() {
       <Header />
       <SearchBar />
       <div>
-        {/* {pathname === '/meals'
+        {pathname === '/meals'
           && searchedMeals?.map((m, index) => (
             <div key={ index }>
               <p>{m.idMeal}</p>
               <p>{m.strMeal}</p>
               <img src={ m.strMealThumb } className="search_img" alt={ m.strMeal } />
-            </div>))} */}
+            </div>))}
       </div>
       <div>
         {pathname === '/drinks'

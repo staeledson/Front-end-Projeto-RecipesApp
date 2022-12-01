@@ -7,7 +7,7 @@ export default function ContextAppProvider({ children }) {
   const [searchedDrinks, setSearchedDrinks] = useState([]);
   const [searchOptions, setSearchOptions] = useState({
     inputSearch: '',
-    radioChecked: '',
+    radioChecked: 'ingredient',
   });
 
   const value = useMemo(

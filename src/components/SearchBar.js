@@ -29,7 +29,7 @@ function SearchBar() {
     const drinks = await fetchDrinks(searchOptions);
     const meals = await fetchMeals(searchOptions);
 
-    console.log(d);
+    // console.log(d);
     setSearchedDrinks(drinks);
     setSearchedMeals(meals);
   };
