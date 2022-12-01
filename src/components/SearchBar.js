@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import ContextApp from '../context/ContextApp';
 import fetchMeals from '../services/fetchMeals';
 import fetchDrinks from '../services/fetchDrinks';
 
 function SearchBar() {
+  const history = useHistory();
+  const { pathname } = history.location;
   const {
     searchOptions,
     setSearchOptions,
@@ -26,12 +29,13 @@ function SearchBar() {
   };
 
   const handleSearchClick = async () => {
-    const drinks = await fetchDrinks(searchOptions);
-    const meals = await fetchMeals(searchOptions);
-
-    // console.log(d);
-    setSearchedDrinks(drinks);
-    setSearchedMeals(meals);
+    if (pathname === '/meals') {
+      const meals = await fetchMeals(searchOptions);
+      setSearchedMeals(meals);
+    } else {
+      const drinks = await fetchDrinks(searchOptions);
+      setSearchedDrinks(drinks);
+    }
   };
 
   return (

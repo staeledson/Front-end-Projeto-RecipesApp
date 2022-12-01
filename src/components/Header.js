@@ -11,7 +11,7 @@ function Header() {
   return (
     <div>
       <h1 data-testid="page-title">{pathname === '/meals' ? 'Meals' : 'Drinks'}</h1>
-      {showBar && <SearchBar />}
+      {/* {showBar && <SearchBar />} */}
       <Link to="/profile">
         <img
           data-testid="profile-top-btn"
