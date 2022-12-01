@@ -3,9 +3,9 @@ function fetchDrinks({ inputSearch, radioChecked }) {
     console.log(URL);
     try {
       const response = await fetch(URL);
-      const { ingredients } = await response.json();
-      console.log(ingredients);
-      return ingredients;
+      const { drinks } = await response.json();
+      console.log('drinks', drinks);
+      return drinks;
     } catch (error) {
       throw new Error(error);
     }
@@ -13,7 +13,7 @@ function fetchDrinks({ inputSearch, radioChecked }) {
 
   switch (radioChecked) {
   case 'ingredient':
-    return fetchData(`https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${inputSearch}`);
+    return fetchData(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputSearch}`);
   case 'name':
     return fetchData(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`);
   case 'first-letter':

@@ -1,20 +1,22 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
-function Header({ title }) {
+function Header() {
   const [showBar, setShowBar] = useState(false);
   const history = useHistory();
   const { pathname } = history.location;
   return (
     <div>
-      <h1 data-testid="page-title">{title}</h1>
+      <h1 data-testid="page-title">{pathname === '/meals' ? 'Meals' : 'Drinks'}</h1>
+      {showBar && <SearchBar />}
       <Link to="/profile">
-        <image
+        <img
           data-testid="profile-top-btn"
           src={ profileIcon }
+          alt="ícone de perfil"
         />
       </Link>
       {pathname !== '/profile'
@@ -33,9 +35,5 @@ function Header({ title }) {
     </div>
   );
 }
-
-Header.propTypes = {
-  title: PropTypes.string.isRequired,
-};
 
 export default Header;

@@ -8,7 +8,8 @@ function SearchBar() {
     searchOptions,
     setSearchOptions,
     setSearchedDrinks,
-    setSearchedMeals } = useContext(ContextApp);
+    setSearchedMeals,
+  } = useContext(ContextApp);
 
   const handleSearch = ({ target }) => {
     switch (target.name) {
@@ -25,11 +26,12 @@ function SearchBar() {
   };
 
   const handleSearchClick = async () => {
-    const d = await fetchDrinks(searchOptions);
-    const m = await fetchMeals(searchOptions);
-    console.log(searchOptions);
-    setSearchedDrinks(d);
-    setSearchedMeals(m);
+    const drinks = await fetchDrinks(searchOptions);
+    const meals = await fetchMeals(searchOptions);
+
+    console.log(d);
+    setSearchedDrinks(drinks);
+    setSearchedMeals(meals);
   };
 
   return (
@@ -74,7 +76,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ handleSearchClick }
+        onClick={ async () => handleSearchClick() }
       >
         SEARCH
       </button>
