@@ -27,7 +27,7 @@ function Login() {
       <label htmlFor="inputPassword">
         senha
         <input
-          type="text"
+          type="password"
           name="inputPassword"
           id="inputPassword"
           data-testid="password-input"
