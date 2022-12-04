@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import ContextApp from '../context/ContextApp';
-import fetchMeals from '../services/fetchMeals';
-import fetchDrinks from '../services/fetchDrinks';
+import fetchSearch from '../services/fetchSearch';
 
 function SearchBar() {
   const history = useHistory();
@@ -34,11 +33,11 @@ function SearchBar() {
       .radioChecked === 'first-letter') {
       global.alert('Your search must have only 1 (one) character');
     } else if (pathname === '/meals') {
-      const meals = await fetchMeals(searchOptions);
+      const meals = await fetchSearch(searchOptions, 'meals');
       setSearchedMeals(meals);
       setIsLoading(false);
     } else {
-      const drinks = await fetchDrinks(searchOptions);
+      const drinks = await fetchSearch(searchOptions, 'drinks');
       setSearchedDrinks(drinks);
       setIsLoading(false);
     }

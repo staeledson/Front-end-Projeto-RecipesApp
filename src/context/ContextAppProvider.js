@@ -5,6 +5,7 @@ import ContextApp from './ContextApp';
 export default function ContextAppProvider({ children }) {
   const [searchedMeals, setSearchedMeals] = useState([]);
   const [searchedDrinks, setSearchedDrinks] = useState([]);
+  const [useDetails, setUseDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchOptions, setSearchOptions] = useState({
     inputSearch: '',
@@ -21,6 +22,8 @@ export default function ContextAppProvider({ children }) {
       setSearchOptions,
       isLoading,
       setIsLoading,
+      useDetails,
+      setUseDetails,
     }),
     [
       searchedMeals,
@@ -31,6 +34,8 @@ export default function ContextAppProvider({ children }) {
       setSearchOptions,
       isLoading,
       setIsLoading,
+      useDetails,
+      setUseDetails,
     ],
   );
   return (

@@ -40,6 +40,7 @@ function Recipes() {
               <p>{d.strABV}</p> */}
             </div>))}
       </div>
+
     </div>
   );
 }
