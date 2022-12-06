@@ -1,29 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import ContextApp from '../context/ContextApp';
 import fetchDetails from '../services/fetchDetails';
 
 function RecipeDetails() {
   const [useDetails, setUseDetails] = useState([]);
-  const history = useHistory();
-  const { pathname } = history.location;
-  let id = '52771';
-  let type = 'meals';
+  const { detailsInfo } = useContext(ContextApp);
 
-  const extrairID = () => {
-    const idAux = pathname.substr(pathname.indexOf('=') + 1, pathname.length);
-    if (idAux.length !== pathname.length) id = idAux;
-    if (pathname.includes('drinks')) {
-      type = 'drinks';
-    }
-    if (pathname.includes('meals')) {
-      type = 'meals';
-    }
-  };
-
+  console.log(detailsInfo);
   useEffect(() => {
     const teste = async () => {
-      extrairID();
-      const a = await fetchDetails(id, type);
+      const a = await fetchDetails(detailsInfo.id, detailsInfo.type);
       console.log(a);
       setUseDetails(a);
     };

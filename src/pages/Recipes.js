@@ -4,35 +4,43 @@ import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
 
 function Recipes() {
-  const { searchedMeals, searchedDrinks, isLoading } = useContext(ContextApp);
+  const { searchedMeals,
+    searchedDrinks,
+    isLoading,
+    setDetailsInfo } = useContext(ContextApp);
+
   const history = useHistory();
   const { pathname } = history.location;
 
   if (pathname === '/drinks' && searchedDrinks.length === 1 && !isLoading) {
+    setDetailsInfo({
+      id: searchedDrinks[0].idDrink,
+      type: 'drinks',
+    });
     history.push(`/drinks/${searchedDrinks[0].idDrink}`);
   }
   if (pathname === '/meals' && searchedMeals?.length === 1 && !isLoading) {
+    setDetailsInfo({
+      id: searchedMeals[0].idMeal,
+      type: 'meals',
+    });
     history.push(`/meals/${searchedMeals[0].idMeal}`);
   }
 
   return (
     <div>
       <Header />
-      {searchedMeals.length > 1 && (
-        <div>
-          {pathname === '/meals'
+      <div>
+        {pathname === '/meals'
             && searchedMeals?.map((m, index) => (
               <div key={ index }>
                 <p>{m.idMeal}</p>
                 <p>{m.strMeal}</p>
                 <img src={ m.strMealThumb } className="search_img" alt={ m.strMeal } />
               </div>))}
-        </div>
-      )}
-      {searchedDrinks.length > 1
-      && (
-        <div>
-          {pathname === '/drinks'
+      </div>
+      <div>
+        {pathname === '/drinks'
             && searchedDrinks?.map((d) => (
               <div key={ d.idDrink }>
                 <p>{d.strDrink}</p>
@@ -43,8 +51,7 @@ function Recipes() {
               <p>{d.strAlcohol}</p>
               <p>{d.strABV}</p> */}
               </div>))}
-        </div>
-      )}
+      </div>
 
     </div>
   );
