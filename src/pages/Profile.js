@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
@@ -22,7 +23,7 @@ function Profile() {
   return (
     <div>
       {/* <h2>{ userSaved }</h2> */}
-      <Header />
+      <Header title="Profile"/>
       <h2 data-testid="profile-email">email</h2>
       <button
         type="button"
@@ -45,6 +46,7 @@ function Profile() {
       >
         Logout
       </button>
+      <Footer />
     </div>
   );
 }

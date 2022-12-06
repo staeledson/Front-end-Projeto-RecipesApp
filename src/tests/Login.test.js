@@ -11,7 +11,7 @@ describe('testa a página de Login', () => {
     const inputEmail = screen.getByRole('textbox', { name: /email/i });
     expect(inputEmail).toBeInTheDocument();
 
-    const inputPassword = screen.getByRole('textbox', { name: /senha/i });
+    const inputPassword = screen.getByTestId('password-input');
     expect(inputPassword).toBeInTheDocument();
 
     const loginButton = screen.getByRole('button', { name: /entrar/i });
@@ -29,7 +29,7 @@ describe('testa a página de Login', () => {
     renderWithRouter(<Login />);
 
     const inputEmail = screen.getByRole('textbox', { name: /email/i });
-    const inputPassword = screen.getByRole('textbox', { name: /senha/i });
+    const inputPassword = screen.getByTestId('password-input');
 
     userEvent.type(inputEmail, 'tulio@barros.com');
     userEvent.type(inputPassword, '12345678');

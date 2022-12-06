@@ -46,7 +46,6 @@ function SearchBar() {
 
   return (
     <div>
-      <h3>Search Component</h3>
       <input
         type="text"
         name="search-input"
