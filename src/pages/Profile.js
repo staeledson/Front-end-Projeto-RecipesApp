@@ -23,7 +23,7 @@ function Profile() {
   return (
     <div>
       {/* <h2>{ userSaved }</h2> */}
-      <Header title="Profile"/>
+      <Header title="Profile" />
       <h2 data-testid="profile-email">email</h2>
       <button
         type="button"
