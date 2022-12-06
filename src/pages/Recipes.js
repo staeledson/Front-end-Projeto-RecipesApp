@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
 
 function Recipes() {
-  // const arr = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16];
-  // const alert = 'Sorry, we haven`t found any recipes for these filters.';
   const magicTwelve = 12;
   const { searchedMeals, searchedDrinks } = useContext(ContextApp);
   const history = useHistory();
@@ -21,7 +20,7 @@ function Recipes() {
 
   return (
     <div>
-      <Header />
+      <Header title={ pathname === '/meals' ? 'Meals' : 'Drinks' } />
       <div>
         {pathname === '/meals'
           && searchedMeals?.map((m, index) => (
@@ -56,22 +55,9 @@ function Recipes() {
             )
           ))}
       </div>
-      {/* {arr.map((ar, index) => {
-        if (index < 5) {
-          return <p key={ index }>{ar}</p>;
-        }
-      })} */}
+      <Footer />
     </div>
   );
 }
 
 export default Recipes;
-
-// {/* <p>{m.idMeal}</p>
-// <p>{m.strMeal}</p>
-// <img src={ m.strMealThumb } className="search_img" alt={ m.strMeal } /> */}
-
-// {/* <div key={ d.idDrink }>
-//               <p>{d.strDrink}</p>
-//               <img src={ d.strDrinkThumb } alt="img" />
-//             </div> */}
