@@ -24,6 +24,7 @@ function RecipeDetails() {
     const teste = async () => {
       extrairID();
       const a = await fetchDetails(id, type);
+      console.log(a);
       setUseDetails(a);
     };
     teste();

@@ -9,7 +9,7 @@ function Recipes() {
   const { pathname } = history.location;
 
   if (pathname === '/drinks' && searchedDrinks.length === 1 && !isLoading) {
-    history.push(`/drinks/${searchedDrinks[0].idIngredient}`);
+    history.push(`/drinks/${searchedDrinks[0].idDrink}`);
   }
   if (pathname === '/meals' && searchedMeals?.length === 1 && !isLoading) {
     history.push(`/meals/${searchedMeals[0].idMeal}`);
@@ -18,28 +18,33 @@ function Recipes() {
   return (
     <div>
       <Header />
-      <div>
-        {pathname === '/meals'
-          && searchedMeals?.map((m, index) => (
-            <div key={ index }>
-              <p>{m.idMeal}</p>
-              <p>{m.strMeal}</p>
-              <img src={ m.strMealThumb } className="search_img" alt={ m.strMeal } />
-            </div>))}
-      </div>
-      <div>
-        {pathname === '/drinks'
-          && searchedDrinks?.map((d) => (
-            <div key={ d.idDrink }>
-              <p>{d.strDrink}</p>
-              <img src={ d.strDrinkThumb } alt="img" />
-              {/* <p>{d.strIngredient}</p>
+      {searchedMeals.length > 1 && (
+        <div>
+          {pathname === '/meals'
+            && searchedMeals?.map((m, index) => (
+              <div key={ index }>
+                <p>{m.idMeal}</p>
+                <p>{m.strMeal}</p>
+                <img src={ m.strMealThumb } className="search_img" alt={ m.strMeal } />
+              </div>))}
+        </div>
+      )}
+      {searchedDrinks.length > 1
+      && (
+        <div>
+          {pathname === '/drinks'
+            && searchedDrinks?.map((d) => (
+              <div key={ d.idDrink }>
+                <p>{d.strDrink}</p>
+                <img src={ d.strDrinkThumb } alt="img" />
+                {/* <p>{d.strIngredient}</p>
               <p>{d.strDescription}</p>
               <p>{d.strType}</p>
               <p>{d.strAlcohol}</p>
               <p>{d.strABV}</p> */}
-            </div>))}
-      </div>
+              </div>))}
+        </div>
+      )}
 
     </div>
   );

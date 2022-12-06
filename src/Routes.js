@@ -13,10 +13,10 @@ export default function Routes() {
       <Route exact path="/" component={ Login } />
       <Route exact path="/meals" component={ Recipes } />
       <Route exact path="/drinks" component={ Recipes } />
-      {/* <Route exact path="/meals/:id-da-receita" component={ RecipeDetails } /> */}
-      {/* <Route exact path="/drinks/:id-da-receita" component={ RecipeDetails } /> */}
-      <Route exact path="/meals/recipedetails" component={ RecipeDetails } />
-      <Route exact path="/drinks/recipedetails" component={ RecipeDetails } />
+      <Route exact path="/meals/:id" component={ RecipeDetails } />
+      <Route exact path="/drinks/:id" component={ RecipeDetails } />
+      {/* <Route exact path="/meals/recipedetails" component={ RecipeDetails } />
+      <Route exact path="/drinks/recipedetails" component={ RecipeDetails } /> */}
       {/* <Route exact path="/meals/:id-da-receita/in-progress" /> */}
       {/* <Route exact path="/drinks/:id-da-receita/in-progress" /> */}
       <Route path="/profile" component={ Profile } />
