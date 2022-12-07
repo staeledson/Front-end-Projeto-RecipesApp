@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 function Profile() {
   const history = useHistory();
-  // const userSaved = JSON.parse(localStorage.getItem('user'));
+  const userSaved = JSON.parse(localStorage.getItem('user'));
 
   const onClickToDoneRecipes = () => {
     history.push('/done-recipes');
@@ -22,9 +22,8 @@ function Profile() {
 
   return (
     <div>
-      {/* <h2>{ userSaved }</h2> */}
       <Header title="Profile" />
-      <h2 data-testid="profile-email">email</h2>
+      <h2 data-testid="profile-email">{ userSaved.email }</h2>
       <button
         type="button"
         data-testid="profile-done-btn"
