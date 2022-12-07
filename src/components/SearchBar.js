@@ -5,6 +5,8 @@ import fetchMeals from '../services/fetchMeals';
 import fetchDrinks from '../services/fetchDrinks';
 
 function SearchBar() {
+  // const { searchedMeals, searchedDrinks } = useContext(ContextApp);
+  // const alert = 'Sorry, we haven`t found any recipes for these filters.';
   const history = useHistory();
   const { pathname } = history.location;
   const {
