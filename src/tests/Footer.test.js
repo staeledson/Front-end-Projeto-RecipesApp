@@ -7,6 +7,11 @@ import Profile from '../pages/Profile';
 import ContextAppProvider from '../context/ContextAppProvider';
 
 describe('Testa o Footer', () => {
+  beforeEach(() => {
+    const email = 'trybe@teste.com';
+    localStorage.setItem('user', JSON.stringify({ email }));
+  });
+
   it('01 - Testa se o Footer aparece em Recipes', () => {
     renderWithRouter(
       <ContextAppProvider>
