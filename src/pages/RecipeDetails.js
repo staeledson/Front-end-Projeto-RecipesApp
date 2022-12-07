@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import fetchDetails from '../services/fetchDetails';
+import fetchSearch from '../services/fetchSearch';
+import ContextApp from '../context/ContextApp';
 
 function RecipeDetails() {
   const [useDetails, setUseDetails] = useState([]);
   const history = useHistory();
   const { pathname } = history.location;
+  const { recommendations, setRecommendations } = useContext(ContextApp);
 
   const getDetailsInfo = () => {
     const mealsMagic = 7;
@@ -25,11 +28,24 @@ function RecipeDetails() {
   };
 
   useEffect(() => {
-    const teste = async () => {
+    const getDet = async () => {
       const a = await fetchDetails(getDetailsInfo());
       setUseDetails(a);
     };
-    teste();
+    const getrecommendations = async () => {
+      let r = {};
+      if (pathname.includes('/meals')) {
+        r = await fetchSearch({}, 'drinks');
+        setRecommendations(r);
+      }
+      if (pathname.includes('/drinks')) {
+        r = await fetchSearch({}, 'meals');
+        setRecommendations(r);
+      }
+      console.log(r);
+    };
+    getDet();
+    getrecommendations();
   }, []);
 
   const valuesApi = (obj, name) => Object.entries(obj)
@@ -44,6 +60,7 @@ function RecipeDetails() {
     measure = valuesApi(useDetails[0], 'strMeasure');
   }
 
+  const maxCardNumber = 6;
   return (
     <div>
       <h1>Recipe Details</h1>
@@ -81,6 +98,21 @@ function RecipeDetails() {
               src={ m.strYoutube && m.strYoutube.replace(/watch\?v=/g, 'embed/') }
               data-testid="video"
             />
+            <h5>recommendations: </h5>
+            <ul>
+              {recommendations?.map(({ r }, idxR) => (
+                idxR <= maxCardNumber
+                && (
+                  <li
+                    key={ idxR }
+                    data-testid={ `${idxR}-recomendations` }
+                  >
+                    teste
+                    {idxR}
+                  </li>
+                )
+              ))}
+            </ul>
           </div>))}
       </div>
     </div>

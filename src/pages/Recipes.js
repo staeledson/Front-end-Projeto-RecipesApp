@@ -6,24 +6,15 @@ import ContextApp from '../context/ContextApp';
 function Recipes() {
   const { searchedMeals,
     searchedDrinks,
-    isLoading,
-    setDetailsInfo } = useContext(ContextApp);
+    isLoading } = useContext(ContextApp);
 
   const history = useHistory();
   const { pathname } = history.location;
 
   if (pathname === '/drinks' && searchedDrinks.length === 1 && !isLoading) {
-    setDetailsInfo({
-      id: searchedDrinks[0].idDrink,
-      type: 'drinks',
-    });
     history.push(`/drinks/${searchedDrinks[0].idDrink}`);
   }
   if (pathname === '/meals' && searchedMeals?.length === 1 && !isLoading) {
-    setDetailsInfo({
-      id: searchedMeals[0].idMeal,
-      type: 'meals',
-    });
     history.push(`/meals/${searchedMeals[0].idMeal}`);
   }
 
