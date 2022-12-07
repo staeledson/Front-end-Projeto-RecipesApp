@@ -4,10 +4,6 @@ import ContextApp from './ContextApp';
 
 export default function ContextAppProvider({ children }) {
   const [searchedMeals, setSearchedMeals] = useState([]);
-  const [detailsInfo, setDetailsInfo] = useState({
-    id: '',
-    type: '',
-  });
   const [searchedDrinks, setSearchedDrinks] = useState([]);
   const [useDetails, setUseDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,8 +24,6 @@ export default function ContextAppProvider({ children }) {
       setIsLoading,
       useDetails,
       setUseDetails,
-      detailsInfo,
-      setDetailsInfo,
     }),
     [
       searchedMeals,
@@ -42,8 +36,6 @@ export default function ContextAppProvider({ children }) {
       setIsLoading,
       useDetails,
       setUseDetails,
-      detailsInfo,
-      setDetailsInfo,
     ],
   );
   return (

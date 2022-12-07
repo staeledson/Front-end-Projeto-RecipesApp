@@ -1,4 +1,4 @@
-async function fetchDetails(id, type) {
+async function fetchDetails({ id, type }) {
   if (type === 'meals') {
     try {
       const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;

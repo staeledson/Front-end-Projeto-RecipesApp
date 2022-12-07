@@ -1,16 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
-import ContextApp from '../context/ContextApp';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import fetchDetails from '../services/fetchDetails';
 
 function RecipeDetails() {
   const [useDetails, setUseDetails] = useState([]);
-  const { detailsInfo } = useContext(ContextApp);
+  const history = useHistory();
+  const { pathname } = history.location;
 
-  console.log(detailsInfo);
+  const getDetailsInfo = () => {
+    const mealsMagic = 7;
+    const drinksMagic = 8;
+    if (pathname.includes('/meals')) {
+      return {
+        id: pathname.substring(mealsMagic),
+        type: 'meals',
+      };
+    }
+    if (pathname.includes('/drinks')) {
+      return {
+        id: pathname.substring(drinksMagic),
+        type: 'drinks',
+      };
+    }
+  };
+
   useEffect(() => {
     const teste = async () => {
-      const a = await fetchDetails(detailsInfo.id, detailsInfo.type);
-      console.log(a);
+      const a = await fetchDetails(getDetailsInfo());
       setUseDetails(a);
     };
     teste();
@@ -42,7 +58,11 @@ function RecipeDetails() {
             />
             <h2 data-testid="recipe-title">{ m.strMeal || m.strDrink }</h2>
             <h5>Category: </h5>
-            <p data-testid="recipe-category">{m.strCategory || m.strAlcoholic}</p>
+            <p data-testid="recipe-category">
+              {pathname.includes('/meals')
+                ? m.strCategory : m.strAlcoholic}
+
+            </p>
             <h5>Ingredients: </h5>
             <ul>
               {ingredients?.map(({ k }, idx) => (
