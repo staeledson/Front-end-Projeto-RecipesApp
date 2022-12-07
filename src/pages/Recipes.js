@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
+import Footer from '../components/Footer';
 
 function Recipes() {
   const { searchedMeals,
@@ -20,30 +21,42 @@ function Recipes() {
 
   return (
     <div>
-      <Header />
+      <Header title={ pathname === '/meals' ? 'Meals' : 'Drinks' } />
       <div>
         {pathname === '/meals'
-            && searchedMeals?.map((m, index) => (
-              <div key={ index }>
+          && searchedMeals?.map((m, index) => (
+            index < magicTwelve
+            && (
+              <div data-testid={ `${index}-recipe-card` } key={ m.idMeal }>
                 <p>{m.idMeal}</p>
-                <p>{m.strMeal}</p>
-                <img src={ m.strMealThumb } className="search_img" alt={ m.strMeal } />
-              </div>))}
+                <p data-testid={ `${index}-card-name` }>{m.strMeal}</p>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ m.strMealThumb }
+                  className="search_img"
+                  alt={ m.strMeal }
+                />
+              </div>
+            )
+          ))}
       </div>
       <div>
         {pathname === '/drinks'
-            && searchedDrinks?.map((d) => (
-              <div key={ d.idDrink }>
-                <p>{d.strDrink}</p>
-                <img src={ d.strDrinkThumb } alt="img" />
-                {/* <p>{d.strIngredient}</p>
-              <p>{d.strDescription}</p>
-              <p>{d.strType}</p>
-              <p>{d.strAlcohol}</p>
-              <p>{d.strABV}</p> */}
-              </div>))}
+          && searchedDrinks?.map((d, index) => (
+            index < magicTwelve
+            && (
+              <div data-testid={ `${index}-recipe-card` } key={ d.idDrink }>
+                <p data-testid={ `${index}-card-name` }>{d.strDrink}</p>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ d.strDrinkThumb }
+                  alt="img"
+                />
+              </div>
+            )
+          ))}
       </div>
-
+      <Footer />
     </div>
   );
 }
