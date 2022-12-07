@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
 
 function Recipes() {
+  const magicTwelve = 12;
   const { searchedMeals,
     searchedDrinks,
     isLoading } = useContext(ContextApp);

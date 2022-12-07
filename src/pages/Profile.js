@@ -23,7 +23,7 @@ function Profile() {
   return (
     <div>
       <Header title="Profile" />
-      <h2 data-testid="profile-email">{ userSaved.email }</h2>
+      <h2 data-testid="profile-email">{ !userSaved ? 'Faça login' : userSaved.email }</h2>
       <button
         type="button"
         data-testid="profile-done-btn"

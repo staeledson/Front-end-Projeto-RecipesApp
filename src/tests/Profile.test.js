@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, act } from '@testing-library/react';
+import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWith';
 import App from '../App';
@@ -36,6 +36,36 @@ describe('testa a página Profile', () => {
 
     const profileTitle = screen.getByRole('heading', { name: /profile/i });
     expect(profileTitle).toBeInTheDocument();
+  });
+
+  test('se tem um "h2" na tela com o email do localStorage', () => {
+    const { history } = renderWithRouter(<App />);
+
+    act(() => {
+      history.push('/profile');
+    });
+
+    const showEmail = screen.getByRole('heading', { name: /trybe@teste.com/i });
+    expect(showEmail).toBeInTheDocument();
+
+    localStorage.clear();
+
+    const otherTitle = screen.findByRole('heading', { name: /faça login/i });
+    waitFor(() => expect(showEmail).not.toBeInTheDocument());
+    waitFor(() => expect(otherTitle).toBeInTheDocument());
+  });
+
+  test('se tem um "h2" na tela sem o email do localStorage', () => {
+    localStorage.clear();
+    const { history } = renderWithRouter(<App />);
+
+    act(() => {
+      history.push('/profile');
+    });
+
+    const otherTitle = screen.getByRole('heading', { name: /faça login/i });
+
+    expect(otherTitle).toBeInTheDocument();
   });
 
   test('se ao clicar no botão "Done Recipes" vai para a rota "/done-recipes"', () => {
