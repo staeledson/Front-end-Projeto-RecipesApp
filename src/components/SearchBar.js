@@ -1,12 +1,9 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import ContextApp from '../context/ContextApp';
-import fetchMeals from '../services/fetchMeals';
-import fetchDrinks from '../services/fetchDrinks';
+import fetchSearch from '../services/fetchSearch';
 
 function SearchBar() {
-  // const { searchedMeals, searchedDrinks } = useContext(ContextApp);
-  // const alert = 'Sorry, we haven`t found any recipes for these filters.';
   const history = useHistory();
   const { pathname } = history.location;
   const {
@@ -14,6 +11,7 @@ function SearchBar() {
     setSearchOptions,
     setSearchedDrinks,
     setSearchedMeals,
+    setIsLoading,
   } = useContext(ContextApp);
 
   const handleSearch = ({ target }) => {
@@ -34,15 +32,14 @@ function SearchBar() {
     if (searchOptions.inputSearch.length > 1 && searchOptions
       .radioChecked === 'first-letter') {
       global.alert('Your search must have only 1 (one) character');
-      console.log('if');
     } else if (pathname === '/meals') {
-      const meals = await fetchMeals(searchOptions);
+      const meals = await fetchSearch(searchOptions, 'meals');
       setSearchedMeals(meals);
-      console.log('else if');
+      setIsLoading(false);
     } else {
-      const drinks = await fetchDrinks(searchOptions);
+      const drinks = await fetchSearch(searchOptions, 'drinks');
       setSearchedDrinks(drinks);
-      console.log('else');
+      setIsLoading(false);
     }
   };
 
