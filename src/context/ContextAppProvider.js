@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo, useState, useEffect } from 'react';
+import fetchCategory from '../services/fetchCategory';
 import fetchSearch from '../services/fetchSearch';
 import ContextApp from './ContextApp';
 
@@ -9,6 +10,8 @@ export default function ContextAppProvider({ children }) {
   const [useDetails, setUseDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
+  const [mealsCategory, setMealsCategory] = useState([]);
+  const [drinksCategory, setDrinksCategory] = useState([]);
   const [searchOptions, setSearchOptions] = useState({
     inputSearch: '',
     radioChecked: 'ingredient',
@@ -19,8 +22,12 @@ export default function ContextAppProvider({ children }) {
       setIsLoading(true);
       const useFetchMeal = await fetchSearch('_', 'meals');
       const useFetchDrink = await fetchSearch('_', 'drink');
+      const useMealsCategory = await fetchCategory('meals');
+      const useDrinksCategory = await fetchCategory('drinks');
       setSearchedMeals(useFetchMeal);
       setSearchedDrinks(useFetchDrink);
+      setMealsCategory(useMealsCategory);
+      setDrinksCategory(useDrinksCategory);
       setIsLoading(false);
     };
     getData();
@@ -40,6 +47,8 @@ export default function ContextAppProvider({ children }) {
       setUseDetails,
       recommendations,
       setRecommendations,
+      mealsCategory,
+      drinksCategory,
     }),
     [
       searchedMeals,
@@ -54,6 +63,8 @@ export default function ContextAppProvider({ children }) {
       setUseDetails,
       recommendations,
       setRecommendations,
+      mealsCategory,
+      drinksCategory,
     ],
   );
   return (
