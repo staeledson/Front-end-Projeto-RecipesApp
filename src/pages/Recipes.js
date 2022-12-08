@@ -6,9 +6,7 @@ import ContextApp from '../context/ContextApp';
 
 function Recipes() {
   const magicTwelve = 12;
-  const { searchedMeals,
-    searchedDrinks,
-    isLoading } = useContext(ContextApp);
+  const { searchedMeals, searchedDrinks, isLoading } = useContext(ContextApp);
 
   const history = useHistory();
   const { pathname } = history.location;
@@ -24,8 +22,9 @@ function Recipes() {
     <div>
       <Header title={ pathname === '/meals' ? 'Meals' : 'Drinks' } />
       <div>
-        {pathname === '/meals'
-          && searchedMeals?.map((m, index) => (
+        {isLoading && <h3>Loading...</h3>}
+        {pathname === '/meals' && !isLoading
+          && searchedMeals.map((m, index) => (
             index < magicTwelve
             && (
               <div data-testid={ `${index}-recipe-card` } key={ m.idMeal }>
@@ -43,7 +42,7 @@ function Recipes() {
       </div>
       <div>
         {pathname === '/drinks'
-          && searchedDrinks?.map((d, index) => (
+          && searchedDrinks.map((d, index) => (
             index < magicTwelve
             && (
               <div data-testid={ `${index}-recipe-card` } key={ d.idDrink }>

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import fetchSearch from '../services/fetchSearch';
 import ContextApp from './ContextApp';
 
 export default function ContextAppProvider({ children }) {
@@ -12,6 +13,18 @@ export default function ContextAppProvider({ children }) {
     inputSearch: '',
     radioChecked: 'ingredient',
   });
+
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      const useFetchMeal = await fetchSearch('_', 'meals');
+      const useFetchDrink = await fetchSearch('_', 'drink');
+      setSearchedMeals(useFetchMeal);
+      setSearchedDrinks(useFetchDrink);
+      setIsLoading(false);
+    };
+    getData();
+  }, []);
 
   const value = useMemo(
     () => ({
