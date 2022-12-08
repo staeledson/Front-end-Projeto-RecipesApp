@@ -6,10 +6,12 @@ import ContextApp from '../context/ContextApp';
 
 function Recipes() {
   const magicTwelve = 12;
-  const { searchedMeals, searchedDrinks, isLoading } = useContext(ContextApp);
-
+  const magicFive = 5;
+  const { searchedMeals, searchedDrinks, isLoading, mealsCategory,
+    drinksCategory } = useContext(ContextApp);
   const history = useHistory();
   const { pathname } = history.location;
+  const getCategory = pathname === '/meals' ? mealsCategory : drinksCategory;
 
   if (pathname === '/drinks' && searchedDrinks.length === 1 && !isLoading) {
     history.push(`/drinks/${searchedDrinks[0].idDrink}`);
@@ -21,11 +23,20 @@ function Recipes() {
   return (
     <div>
       <Header title={ pathname === '/meals' ? 'Meals' : 'Drinks' } />
-      <div>
-        {isLoading && <h3>Loading...</h3>}
-        {pathname === '/meals' && !isLoading
-          && searchedMeals.map((m, index) => (
-            index < magicTwelve
+      {isLoading && <h3>Loading...</h3>}
+      {getCategory.map((btn, index) => (
+        index < magicFive
+              && (
+                <button
+                  key={ index }
+                  type="button"
+                  data-testid={ `${btn.strCategory}-category-filter` }
+                  id={ btn.strCategory }
+                >
+                  {btn.strCategory}
+                </button>)))}
+      {pathname === '/meals' && searchedMeals.map((m, index) => (
+        index < magicTwelve
             && (
               <div data-testid={ `${index}-recipe-card` } key={ m.idMeal }>
                 <p>{m.idMeal}</p>
@@ -38,10 +49,8 @@ function Recipes() {
                 />
               </div>
             )
-          ))}
-      </div>
-      <div>
-        {pathname === '/drinks'
+      ))}
+      {pathname === '/drinks'
           && searchedDrinks.map((d, index) => (
             index < magicTwelve
             && (
@@ -55,7 +64,6 @@ function Recipes() {
               </div>
             )
           ))}
-      </div>
       <Footer />
     </div>
   );
