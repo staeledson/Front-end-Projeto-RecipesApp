@@ -10,19 +10,20 @@ function Recipes() {
   const magicFive = 5;
   const { searchedMeals, searchedDrinks, isLoading, mealsCategory,
     drinksCategory, setSearchedMeals, setSearchedDrinks,
-    setIsLoading } = useContext(ContextApp);
+    setIsLoading, click, setClick } = useContext(ContextApp);
   const history = useHistory();
   const { pathname } = history.location;
   const getCategory = pathname === '/meals' ? mealsCategory : drinksCategory;
 
-  if (pathname === '/drinks' && searchedDrinks.length === 1) {
+  if (pathname === '/drinks' && searchedDrinks.length === 1 && click === 0) {
     history.push(`/drinks/${searchedDrinks.map((info) => info.idDrink)}`);
   }
-  if (pathname === '/meals' && searchedMeals.length === 1) {
+  if (pathname === '/meals' && searchedMeals.length === 1 && click === 0) {
     history.push(`/meals/${searchedMeals.map((info) => info.idMeal)}`);
   }
 
   const handleClick = ({ target: { id } }) => {
+    setClick(1);
     if (pathname === '/meals') {
       const getCategories = async () => {
         setIsLoading(true);
@@ -42,6 +43,26 @@ function Recipes() {
     }
   };
 
+  const handleClickAll = () => {
+    if (pathname === '/meals') {
+      const getData = async () => {
+        setIsLoading(true);
+        const useFetchMeal = await Fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=', 'meals');
+        setSearchedMeals(useFetchMeal);
+        setIsLoading(false);
+      };
+      getData();
+    } else {
+      const getData = async () => {
+        setIsLoading(true);
+        const useFetchDrink = await Fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', 'drinks');
+        setSearchedDrinks(useFetchDrink);
+        setIsLoading(false);
+      };
+      getData();
+    }
+  };
+
   return (
     <div>
       <Header title={ pathname === '/meals' ? 'Meals' : 'Drinks' } />
@@ -58,6 +79,13 @@ function Recipes() {
                 >
                   {btn.strCategory}
                 </button>)))}
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ handleClickAll }
+      >
+        All
+      </button>
       {pathname === '/meals' && searchedMeals.map((m, index) => (
         index < magicTwelve
             && (

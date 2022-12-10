@@ -15,6 +15,7 @@ export default function ContextAppProvider({ children }) {
     inputSearch: '',
     radioChecked: 'ingredient',
   });
+  const [click, setClick] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -48,6 +49,8 @@ export default function ContextAppProvider({ children }) {
       setRecommendations,
       mealsCategory,
       drinksCategory,
+      click,
+      setClick,
     }),
     [
       searchedMeals,
@@ -64,6 +67,8 @@ export default function ContextAppProvider({ children }) {
       setRecommendations,
       mealsCategory,
       drinksCategory,
+      click,
+      setClick,
     ],
   );
   return (
