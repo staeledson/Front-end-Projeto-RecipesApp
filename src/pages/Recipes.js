@@ -3,22 +3,44 @@ import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
+import Fetch from '../services/Fetch';
 
 function Recipes() {
   const magicTwelve = 12;
   const magicFive = 5;
   const { searchedMeals, searchedDrinks, isLoading, mealsCategory,
-    drinksCategory } = useContext(ContextApp);
+    drinksCategory, setSearchedMeals, setSearchedDrinks,
+    setIsLoading } = useContext(ContextApp);
   const history = useHistory();
   const { pathname } = history.location;
   const getCategory = pathname === '/meals' ? mealsCategory : drinksCategory;
 
-  if (pathname === '/drinks' && searchedDrinks.length === 1 && !isLoading) {
-    history.push(`/drinks/${searchedDrinks[0].idDrink}`);
+  if (pathname === '/drinks' && searchedDrinks.length === 1) {
+    history.push(`/drinks/${searchedDrinks.map((info) => info.idDrink)}`);
   }
-  if (pathname === '/meals' && searchedMeals?.length === 1 && !isLoading) {
-    history.push(`/meals/${searchedMeals[0].idMeal}`);
+  if (pathname === '/meals' && searchedMeals.length === 1) {
+    history.push(`/meals/${searchedMeals.map((info) => info.idMeal)}`);
   }
+
+  const handleClick = ({ target: { id } }) => {
+    if (pathname === '/meals') {
+      const getCategories = async () => {
+        setIsLoading(true);
+        const categoryMeal = await Fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${id}`, 'meals');
+        setSearchedMeals(categoryMeal);
+        setIsLoading(false);
+      };
+      getCategories();
+    } else {
+      const getCategories = async () => {
+        setIsLoading(true);
+        const categoryDrink = await Fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${id}`, 'drinks');
+        setSearchedDrinks(categoryDrink);
+        setIsLoading(false);
+      };
+      getCategories();
+    }
+  };
 
   return (
     <div>
@@ -32,6 +54,7 @@ function Recipes() {
                   type="button"
                   data-testid={ `${btn.strCategory}-category-filter` }
                   id={ btn.strCategory }
+                  onClick={ handleClick }
                 >
                   {btn.strCategory}
                 </button>)))}

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo, useState, useEffect } from 'react';
-import fetchCategory from '../services/fetchCategory';
-import fetchSearch from '../services/fetchSearch';
+import Fetch from '../services/Fetch';
 import ContextApp from './ContextApp';
 
 export default function ContextAppProvider({ children }) {
@@ -20,10 +19,10 @@ export default function ContextAppProvider({ children }) {
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
-      const useFetchMeal = await fetchSearch('_', 'meals');
-      const useFetchDrink = await fetchSearch('_', 'drink');
-      const useMealsCategory = await fetchCategory('meals');
-      const useDrinksCategory = await fetchCategory('drinks');
+      const useFetchMeal = await Fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=', 'meals');
+      const useFetchDrink = await Fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=', 'drinks');
+      const useMealsCategory = await Fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list', 'meals');
+      const useDrinksCategory = await Fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list', 'drinks');
       setSearchedMeals(useFetchMeal);
       setSearchedDrinks(useFetchDrink);
       setMealsCategory(useMealsCategory);
