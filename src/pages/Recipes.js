@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
@@ -41,12 +41,14 @@ function Recipes() {
               <div data-testid={ `${index}-recipe-card` } key={ m.idMeal }>
                 <p>{m.idMeal}</p>
                 <p data-testid={ `${index}-card-name` }>{m.strMeal}</p>
-                <img
-                  data-testid={ `${index}-card-img` }
-                  src={ m.strMealThumb }
-                  className="search_img"
-                  alt={ m.strMeal }
-                />
+                <Link to={ `/meals/${m.idMeal}` } className="link-drinks">
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ m.strMealThumb }
+                    className="search_img"
+                    alt={ m.strMeal }
+                  />
+                </Link>
               </div>
             )
       ))}
@@ -56,11 +58,13 @@ function Recipes() {
             && (
               <div data-testid={ `${index}-recipe-card` } key={ d.idDrink }>
                 <p data-testid={ `${index}-card-name` }>{d.strDrink}</p>
-                <img
-                  data-testid={ `${index}-card-img` }
-                  src={ d.strDrinkThumb }
-                  alt="img"
-                />
+                <Link to={ `/drinks/${d.idDrink}` } className="link-drinks">
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ d.strDrinkThumb }
+                    alt="img"
+                  />
+                </Link>
               </div>
             )
           ))}
