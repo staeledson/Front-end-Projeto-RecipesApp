@@ -12,6 +12,7 @@ function SearchBar() {
     setSearchedDrinks,
     setSearchedMeals,
     setIsLoading,
+    setClick,
   } = useContext(ContextApp);
 
   const handleSearch = ({ target }) => {
@@ -22,7 +23,6 @@ function SearchBar() {
     case 'search-radio':
       setSearchOptions({ ...searchOptions, radioChecked: target.value });
       break;
-
     default:
       break;
     }
@@ -35,10 +35,12 @@ function SearchBar() {
     } else if (pathname === '/meals') {
       const meals = await fetchSearch(searchOptions, 'meals');
       setSearchedMeals(meals);
+      setClick(0);
       setIsLoading(false);
     } else {
       const drinks = await fetchSearch(searchOptions, 'drinks');
       setSearchedDrinks(drinks);
+      setClick(0);
       setIsLoading(false);
     }
   };
