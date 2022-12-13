@@ -14,12 +14,11 @@ describe('Testa a página Recipes', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockImplementation(fetch);
   });
+
   it('01 - Testa se o Loading aparece na tela', () => {
     renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Recipes />
-        );
       </ContextAppProvider>,
     );
     const loading = screen.getByText(/loading.../i);
@@ -30,9 +29,7 @@ describe('Testa a página Recipes', () => {
   it('02 - Testa se existem 5 botões de categoria na página meals', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <App />
-        );
       </ContextAppProvider>,
     );
 
@@ -62,9 +59,7 @@ describe('Testa a página Recipes', () => {
   it('03 - Testa se existem 5 botões de categoria na página drinks', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <App />
-        );
       </ContextAppProvider>,
     );
 
@@ -94,9 +89,7 @@ describe('Testa a página Recipes', () => {
   it('04 - Testa se o botão All funciona corretamente na página /meals', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <App />
-        );
       </ContextAppProvider>,
     );
 
@@ -121,9 +114,7 @@ describe('Testa a página Recipes', () => {
   it('05 - Testa se o botão All funciona corretamente na página /drinks', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <App />
-        );
       </ContextAppProvider>,
     );
 
@@ -148,9 +139,7 @@ describe('Testa a página Recipes', () => {
   it('06 - Testa os botões de filtro na página /meals', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <App />
-        );
       </ContextAppProvider>,
     );
 
@@ -172,42 +161,65 @@ describe('Testa a página Recipes', () => {
     const recipe = screen.getByText('52977');
 
     userEvent.click(btn1);
-    const beef = screen.findByText('52874');
-    waitFor(() => expect(beef).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const beef = screen.getByText('52874');
+    expect(beef).toBeInTheDocument();
+
     userEvent.click(btn1);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn2);
-    const breakfast = screen.findByText('52965');
-    waitFor(() => expect(breakfast).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const breakfast = screen.getByText('52965');
+    expect(breakfast).toBeInTheDocument();
+
     userEvent.click(btn2);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn3);
-    const chicken = screen.findByText('53050');
-    waitFor(() => expect(chicken).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const chicken = screen.getByText('52940');
+    expect(chicken).toBeInTheDocument();
+
     userEvent.click(btn3);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn4);
-    const dessert = screen.findByText('53049');
-    waitFor(() => expect(dessert).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const dessert = screen.getByText('52893');
+    expect(dessert).toBeInTheDocument();
+
     userEvent.click(btn4);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn5);
-    const goat = screen.findByText('52968');
-    waitFor(() => expect(goat).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const goat = screen.getByText('52968');
+    expect(goat).toBeInTheDocument();
+
     userEvent.click(btn5);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
   });
 
   it('07 - Testa os botões de filtro na página /drinks', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <App />
-        );
       </ContextAppProvider>,
     );
 
@@ -229,33 +241,58 @@ describe('Testa a página Recipes', () => {
     const recipe = screen.getByText(/gg/i);
 
     userEvent.click(btn1);
-    const ordinary = screen.findByText(/3-Mile Long Island Iced Tea/i);
-    waitFor(() => expect(ordinary).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const ordinary = screen.getByText(/3-Mile Long Island Iced Tea/i);
+    expect(ordinary).toBeInTheDocument();
+
     userEvent.click(btn1);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn2);
-    const cocktail = screen.findByText(/155 Belmont/i);
-    waitFor(() => expect(cocktail).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const cocktail = screen.getByText(/155 Belmont/i);
+    expect(cocktail).toBeInTheDocument();
+
     userEvent.click(btn2);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn3);
-    const shake = screen.findByText(/151 Florida Bushwacker/i);
-    waitFor(() => expect(shake).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const shake = screen.getByText(/151 Florida Bushwacker/i);
+    expect(shake).toBeInTheDocument();
+
     userEvent.click(btn3);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn4);
-    const other = screen.findByText(/A Piece of Ass/i);
-    waitFor(() => expect(other).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const other = screen.getByText(/A Piece of Ass/i);
+    expect(other).toBeInTheDocument();
+
     userEvent.click(btn4);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(btn5);
-    const cocoa = screen.findByText(/Castillian Hot Chocolate/i);
-    waitFor(() => expect(cocoa).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    const cocoa = screen.getByText(/Castillian Hot Chocolate/i);
+    expect(cocoa).toBeInTheDocument();
+
     userEvent.click(btn5);
-    waitFor(() => expect(recipe).toBeInTheDocument());
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
+    expect(recipe).toBeInTheDocument();
   });
 });

@@ -76,8 +76,7 @@ function Recipes() {
     <div>
       <Header title={ pathname === '/meals' ? 'Meals' : 'Drinks' } />
       {isLoading && <h3>Loading...</h3>}
-      {!isLoading
-      && category.map((btn) => (
+      {category.map((btn) => (
         <button
           key={ btn.strCategory }
           type="button"
@@ -87,15 +86,13 @@ function Recipes() {
         >
           {btn.strCategory}
         </button>))}
-      {!isLoading
-      && (
-        <button
-          type="button"
-          data-testid="All-category-filter"
-          onClick={ handleClickAll }
-        >
-          All
-        </button>)}
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ handleClickAll }
+      >
+        All
+      </button>
       {!isLoading
       && pathname === '/meals'
         ? (
