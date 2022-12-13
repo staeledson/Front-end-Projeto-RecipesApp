@@ -86,7 +86,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ async () => handleSearchClick() }
+        onClick={ handleSearchClick }
       >
         SEARCH
       </button>

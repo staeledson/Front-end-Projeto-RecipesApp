@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import ContextApp from '../context/ContextApp';
@@ -19,10 +19,10 @@ function Recipes() {
     : drinksCategory.slice(0, magicFive);
 
   if (pathname === '/drinks' && searchedDrinks.length === 1 && click === 0) {
-    history.push(`/drinks/${searchedDrinks.map((info) => info.idDrink)}`);
+    return <Redirect to={ `/drinks/${searchedDrinks.map((info) => info.idDrink)}` } />;
   }
   if (pathname === '/meals' && searchedMeals.length === 1 && click === 0) {
-    history.push(`/meals/${searchedMeals.map((info) => info.idMeal)}`);
+    return <Redirect to={ `/meals/${searchedMeals.map((info) => info.idMeal)}` } />;
   }
 
   const handleClickAll = () => {

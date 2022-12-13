@@ -295,4 +295,35 @@ describe('Testa a página Recipes', () => {
     await waitFor(() => expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument());
     expect(recipe).toBeInTheDocument();
   });
+
+  it('08 - Testa se vai pra a página de detalhes da receita', async () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
+
+    act(() => {
+      history.push('/meals');
+    });
+
+    const searchIcon = screen.getByTestId('search-top-btn');
+
+    expect(searchIcon).toBeInTheDocument();
+
+    userEvent.click(searchIcon);
+
+    const input = screen.getByTestId('search-input');
+    const radio = screen.getByTestId('name-search-radio');
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+
+    act(() => {
+      userEvent.type(input, 'Arrabiata');
+      userEvent.click(radio);
+      userEvent.click(searchBtn);
+    });
+
+    // await waitFor(() => expect(history.location.pathname).toBe('/meals/52771'));
+    expect(await screen.findByText(/Spicy Arrabiata Penne/i)).toBeInTheDocument();
+  });
 });

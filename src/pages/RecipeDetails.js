@@ -42,7 +42,6 @@ function RecipeDetails() {
         r = await fetchSearch({}, 'meals');
         setRecommendations(r);
       }
-      console.log(r);
     };
     getDet();
     getrecommendations();
