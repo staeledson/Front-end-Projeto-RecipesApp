@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import ContextApp from '../context/ContextApp';
 import fetchSearch from '../services/fetchSearch';
 
+const NOT_FOUND = 'Sorry, we haven\'t found any recipes for these filters.';
 function SearchBar() {
   const history = useHistory();
   const { pathname } = history.location;
@@ -34,10 +35,12 @@ function SearchBar() {
       global.alert('Your search must have only 1 (one) character');
     } else if (pathname === '/meals') {
       const meals = await fetchSearch(searchOptions, 'meals');
+      if (!meals) return global.alert(NOT_FOUND);
       setSearchedMeals(meals);
       setIsLoading(false);
     } else {
       const drinks = await fetchSearch(searchOptions, 'drinks');
+      if (!drinks) return global.alert(NOT_FOUND);
       setSearchedDrinks(drinks);
       setIsLoading(false);
     }
