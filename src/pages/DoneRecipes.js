@@ -3,6 +3,7 @@ import copy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
+import doneRecipesMock from '../services/mockMeals';
 
 function DoneRecipes() {
   const history = useHistory();
@@ -13,11 +14,12 @@ function DoneRecipes() {
   // const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
 
   const sendToLocalStorage = () => {
-    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesMock));
     console.log('ok');
   };
 
-  const getDoneRecipesLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+  const getDoneRecipesLocalStorage = JSON.parse(localStorage
+    .getItem('doneRecipes')) || [];
 
   const shareMeal = async (event) => {
     setCopyMessageMeal(true);
@@ -60,6 +62,7 @@ function DoneRecipes() {
     const filter = getDoneRecipesLocalStorage.filter((meal) => meal.name === targets);
     // console.log(filter);
     history.push(`/${filter[0].type}s/${filter[0].id}`);
+    console.log(filter);
   };
 
   const drinkDetails = (event) => {
@@ -71,6 +74,7 @@ function DoneRecipes() {
 
   return (
     <div>
+      {/* <Header /> */}
       <Header title="Done Recipes" />
       <br />
       <br />
@@ -95,11 +99,12 @@ function DoneRecipes() {
       >
         Drinks
       </button>
-      { doneRecipes.map((meal, index) => (
+      { (doneRecipes.length !== 0) && doneRecipes.map((meal, index) => (
         (meal.type === 'meal')
           ? (
             <div key={ `${meal} ${index}` }>
               <button
+                // data-testid="botao"
                 type="button"
                 onClick={ (event) => mealDetails(event) }
               >
