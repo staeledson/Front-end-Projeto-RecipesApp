@@ -7,9 +7,7 @@ import ContextAppProvider from './context/ContextAppProvider';
 function App() {
   return (
     <div>
-      <ContextAppProvider>
-        <Routes />
-      </ContextAppProvider>
+      <Routes />
     </div>
   );
 }

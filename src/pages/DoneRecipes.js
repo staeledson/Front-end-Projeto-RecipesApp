@@ -15,7 +15,7 @@ function DoneRecipes() {
 
   const sendToLocalStorage = () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesMock));
-    console.log('ok');
+    // console.log('ok');
   };
 
   const getDoneRecipesLocalStorage = JSON.parse(localStorage
