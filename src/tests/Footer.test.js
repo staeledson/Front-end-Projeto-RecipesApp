@@ -15,9 +15,7 @@ describe('Testa o Footer', () => {
   it('01 - Testa se o Footer aparece em Recipes', () => {
     renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Recipes />
-        );
       </ContextAppProvider>,
     );
 
@@ -33,9 +31,7 @@ describe('Testa o Footer', () => {
   it('02 - Testa se o Footer aparece no Profile', () => {
     renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Profile />
-        );
       </ContextAppProvider>,
     );
 
@@ -51,9 +47,7 @@ describe('Testa o Footer', () => {
   it('03 - Testa se há um redirecionamento para /drinks quando clica no link certo', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Recipes />
-        );
       </ContextAppProvider>,
     );
 
@@ -69,9 +63,7 @@ describe('Testa o Footer', () => {
   it('04 - Testa se há um redirecionamento para /meals quando clica no link certo', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Recipes />
-        );
       </ContextAppProvider>,
     );
 

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import ContextApp from '../context/ContextApp';
 import fetchSearch from '../services/fetchSearch';
 
+const NOT_FOUND = 'Sorry, we haven\'t found any recipes for these filters.';
 function SearchBar() {
   const history = useHistory();
   const { pathname } = history.location;
@@ -12,6 +13,7 @@ function SearchBar() {
     setSearchedDrinks,
     setSearchedMeals,
     setIsLoading,
+    setClick,
   } = useContext(ContextApp);
 
   const handleSearch = ({ target }) => {
@@ -22,7 +24,6 @@ function SearchBar() {
     case 'search-radio':
       setSearchOptions({ ...searchOptions, radioChecked: target.value });
       break;
-
     default:
       break;
     }
@@ -34,11 +35,15 @@ function SearchBar() {
       global.alert('Your search must have only 1 (one) character');
     } else if (pathname === '/meals') {
       const meals = await fetchSearch(searchOptions, 'meals');
+      if (!meals) return global.alert(NOT_FOUND);
       setSearchedMeals(meals);
+      setClick(0);
       setIsLoading(false);
     } else {
       const drinks = await fetchSearch(searchOptions, 'drinks');
+      if (!drinks) return global.alert(NOT_FOUND);
       setSearchedDrinks(drinks);
+      setClick(0);
       setIsLoading(false);
     }
   };
@@ -84,7 +89,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ async () => handleSearchClick() }
+        onClick={ handleSearchClick }
       >
         SEARCH
       </button>

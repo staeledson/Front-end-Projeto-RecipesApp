@@ -42,23 +42,22 @@ function RecipeDetails() {
         r = await fetchSearch({}, 'meals');
         setRecommendations(r);
       }
-      console.log(r);
     };
     getDet();
     getrecommendations();
   }, []);
 
-  const valuesApi = (obj, name) => Object.entries(obj)
+  /* const valuesApi = (obj, name) => Object.entries(obj)
     .reduce((acc, [key, value]) => (
       value && key.includes(name) ? [...acc, { k: value }] : acc), []);
 
   let ingredients = {};
   let measure = {};
 
-  if (useDetails[0]) {
+   if (useDetails[0]) {
     ingredients = valuesApi(useDetails[0], 'strIngredient');
     measure = valuesApi(useDetails[0], 'strMeasure');
-  }
+  } */
 
   return (
     <div>
@@ -80,7 +79,7 @@ function RecipeDetails() {
 
             </p>
             <h5>Ingredients: </h5>
-            <ul>
+            {/* <ul>
               {ingredients?.map(({ k }, idx) => (
                 <li
                   key={ idx }
@@ -89,7 +88,7 @@ function RecipeDetails() {
                   {`${k} ${measure[idx].k}`}
                 </li>
               ))}
-            </ul>
+            </ul> */}
             <h5>Intructions: </h5>
             <p data-testid="instructions">{m.strInstructions}</p>
             <iframe

@@ -15,9 +15,7 @@ describe('Testa o Header', () => {
   it('01 - Testa se o Header aparece em Recipes na rota `/drinks`, com o title certo', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Recipes />
-        );
       </ContextAppProvider>,
     );
 
@@ -41,9 +39,7 @@ describe('Testa o Header', () => {
   it('02 - Testa se o Header aparece em Recipes na rota `/meals`, com o title certo', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <App />
-        );
       </ContextAppProvider>,
     );
 
@@ -74,9 +70,7 @@ describe('Testa o Header', () => {
   it('03 - Testa se o Header aparece no Profile', () => {
     renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Profile />
-        );
       </ContextAppProvider>,
     );
 
@@ -90,9 +84,7 @@ describe('Testa o Header', () => {
   it('04 - Testa se o Header aparece em Done Recipes', () => {
     renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <DoneRecipes />
-        );
       </ContextAppProvider>,
     );
 
@@ -106,9 +98,7 @@ describe('Testa o Header', () => {
   it('05 - Testa se o Header aparece em Favorite Recipes', () => {
     renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <FavoriteRecipes />
-        );
       </ContextAppProvider>,
     );
 
@@ -122,9 +112,7 @@ describe('Testa o Header', () => {
   it('06 - Testa se há um redirecionamento para /profile quando clica no link certo', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Recipes />
-        );
       </ContextAppProvider>,
     );
 
@@ -140,9 +128,7 @@ describe('Testa o Header', () => {
   it('07 - Testa se o searchBar aparece ao clicar no button com a imagem da lupa', () => {
     renderWithRouter(
       <ContextAppProvider>
-        renderWithRouter(
         <Recipes />
-        );
       </ContextAppProvider>,
     );
 
