@@ -1,8 +1,8 @@
-.imgRecipe {
-    width: 250px;
-    height: 250px;
+.check {
+  text-decoration: line-through solid black;
 }
 
-.check {
-    text-decoration: line-through solid rgb(0, 0, 0)
+.imgRecipe {
+  height: 250px;
+  width: 250px;
 }
