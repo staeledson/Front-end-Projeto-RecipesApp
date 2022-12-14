@@ -4,10 +4,15 @@ import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWith';
 import App from '../App';
+import ContextAppProvider from '../context/ContextAppProvider';
 
-describe('Teste do Componente SearchBar', () => {
+describe('Teste do Componente RecipeDetails', () => {
   test('Testa se todos os componentes estão na tela meals', async () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
     act(() => {
       history.push('/meals/52977');
     });
@@ -39,7 +44,11 @@ describe('Teste do Componente SearchBar', () => {
 
   test('Testa se ao clicar em Share, a mensagem LinkCopied! é exibida', async () => {
     window.document.execCommand = jest.fn(() => true);
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
     act(() => {
       history.push('/meals/52977');
     });
@@ -52,7 +61,11 @@ describe('Teste do Componente SearchBar', () => {
   });
 
   test('Testa se todos os componentes estão na tela Drinks', async () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
     act(() => {
       history.push('/drinks/178366');
     });
