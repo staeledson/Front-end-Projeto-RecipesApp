@@ -10,3 +10,15 @@ body {
 img {
   max-width: 200px;
 }
+.btn_start_recipe {
+  bottom: 0;
+  position: fixed;
+}
+
+.carouselLink {
+  max-width: 190px;
+}
+
+.search_img {
+  max-width: 190px;
+}
