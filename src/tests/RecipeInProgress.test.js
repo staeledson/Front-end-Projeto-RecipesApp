@@ -22,7 +22,7 @@ describe('Testa a pagina RecipesInProgress', () => {
     });
 
     const favBtn = screen.getByRole('button', {
-      name: /icon\-favorite/i,
+      name: /favorite/i,
     });
 
     const finBtn = screen.getByRole('button', {
@@ -55,7 +55,7 @@ describe('Testa a pagina RecipesInProgress', () => {
     });
 
     const favBtn = screen.getByRole('button', {
-      name: /icon\-favorite/i,
+      name: /favorite/i,
     });
 
     const finBtn = screen.getByRole('button', {
