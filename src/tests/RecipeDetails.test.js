@@ -1,8 +1,9 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import renderWithRouter from './renderWith';
-import App from '../../App';
+import userEvent from '@testing-library/user-event';
+import renderWithRouter from './helpers/renderWith';
+import App from '../App';
 
 describe('Teste do Componente SearchBar', () => {
   test('Testa se todos os componentes estão na tela meals', async () => {
@@ -36,21 +37,19 @@ describe('Teste do Componente SearchBar', () => {
     expect(recomendation2).toBeInTheDocument();
   });
 
-  // test('Testa se ao clicar em Share, a mensagem LinkCopied! é exibida', async () => {
-  //   const { history } = renderWithRouter(<App />);
-  //   act(() => {
-  //     history.push('/meals/52977');
-  //   });
+  test('Testa se ao clicar em Share, a mensagem LinkCopied! é exibida', async () => {
+    window.document.execCommand = jest.fn(() => true);
+    const { history } = renderWithRouter(<App />);
+    act(() => {
+      history.push('/meals/52977');
+    });
 
-  //   const shareBtn = await screen.findByTestId('share-btn');
-  //   expect(shareBtn).toBeInTheDocument();
-  //   userEvent.click(shareBtn);
-  //   await new Promise((resolve) => {
-  //     setTimeout(resolve, 1500);
-  //   });
-  //   const linkCopied = await screen.findByText(/Link copied!/i);
-  //   expect(linkCopied).toBeInTheDocument();
-  // });
+    const shareBtn = await screen.findByTestId('share-btn1');
+    expect(shareBtn).toBeInTheDocument();
+    userEvent.click(shareBtn);
+    const linkCopied = await screen.findByTestId('link-copied');
+    expect(linkCopied).toBeInTheDocument();
+  });
 
   test('Testa se todos os componentes estão na tela Drinks', async () => {
     const { history } = renderWithRouter(<App />);

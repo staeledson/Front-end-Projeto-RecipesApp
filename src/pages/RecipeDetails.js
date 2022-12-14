@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import copy from 'clipboard-copy';
 import fetchDetails from '../services/fetchDetails';
 import fetchSearch from '../services/fetchSearch';
 import ContextApp from '../context/ContextApp';
@@ -95,7 +96,7 @@ function RecipeDetails() {
 
   const handleShareBtnClick = () => {
     const shareMN = 3000;
-    navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
+    copy(`http://localhost:3000${pathname}`);
     setUseLinkCopied(true);
     setTimeout(() => {
       setUseLinkCopied(false);
@@ -161,6 +162,8 @@ function RecipeDetails() {
               className="share-button"
               type="button"
               onClick={ handleShareBtnClick }
+              data-testid="share-btn1"
+
             >
               <img
                 data-testid="share-btn"
@@ -168,7 +171,8 @@ function RecipeDetails() {
                 alt="share-btn"
               />
             </button>
-            {useLinkCopied && <p>Link copied!</p>}
+            {console.log(useLinkCopied)}
+            {useLinkCopied && <p data-testid="link-copied">Link copied!</p>}
 
             <h2 data-testid="recipe-title">{ m.strMeal || m.strDrink }</h2>
 
