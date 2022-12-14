@@ -296,7 +296,7 @@ describe('Testa a página Recipes', () => {
     expect(recipe).toBeInTheDocument();
   });
 
-  it('08 - Testa se vai pra a página de detalhes da receita', async () => {
+  it('08 - Testa se vai pra a página de detalhes da receita saindo de /meals', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
         <App />
@@ -308,8 +308,10 @@ describe('Testa a página Recipes', () => {
     });
 
     const searchIcon = screen.getByTestId('search-top-btn');
+    const recipe = await screen.findByText(/corba/i);
 
     expect(searchIcon).toBeInTheDocument();
+    expect(recipe).toBeInTheDocument();
 
     userEvent.click(searchIcon);
 
@@ -317,13 +319,40 @@ describe('Testa a página Recipes', () => {
     const radio = screen.getByTestId('name-search-radio');
     const searchBtn = screen.getByRole('button', { name: /search/i });
 
+    userEvent.type(input, 'Arrabiata');
+    userEvent.click(radio);
+    userEvent.click(searchBtn);
+
+    await waitFor(() => expect(history.location.pathname).toBe('/meals/52771'));
+  });
+
+  it('09 - Testa se vai pra a página de detalhes da receita saindo de /drinks', async () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
+
     act(() => {
-      userEvent.type(input, 'Arrabiata');
-      userEvent.click(radio);
-      userEvent.click(searchBtn);
+      history.push('/drinks');
     });
 
-    // await waitFor(() => expect(history.location.pathname).toBe('/meals/52771'));
-    expect(await screen.findByText(/Spicy Arrabiata Penne/i)).toBeInTheDocument();
+    const searchIcon = screen.getByTestId('search-top-btn');
+    const recipe = await screen.findByText(/gg/i);
+
+    expect(searchIcon).toBeInTheDocument();
+    expect(recipe).toBeInTheDocument();
+
+    userEvent.click(searchIcon);
+
+    const input = screen.getByTestId('search-input');
+    const radio = screen.getByTestId('name-search-radio');
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+
+    userEvent.type(input, 'Aquamarine');
+    userEvent.click(radio);
+    userEvent.click(searchBtn);
+
+    await waitFor(() => expect(history.location.pathname).toBe('/drinks/178319'));
   });
 });

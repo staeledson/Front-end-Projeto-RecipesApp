@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import './Header.css';
 
 function Header({ title }) {
   const [showBar, setShowBar] = useState(false);
@@ -14,31 +15,33 @@ function Header({ title }) {
 
   return (
     <div>
-      <h1 data-testid="page-title">{title}</h1>
-      <Link to="/profile">
-        <img
-          data-testid="profile-top-btn"
-          src={ profileIcon }
-          alt="imagem de um ícone de perfil"
-        />
-      </Link>
-      {pathname !== '/profile'
+      <div className="header">
+        {pathname !== '/profile'
         && pathname !== '/done-recipes'
         && pathname !== '/favorite-recipes'
         && (
-          <div>
-            <button
-              type="button"
-              onClick={ () => setShowBar(!showBar) }
-            >
-              <img
-                data-testid="search-top-btn"
-                src={ searchIcon }
-                alt="imagem de uma lupa"
-              />
-            </button>
-          </div>
+          <button
+            className="btn-searchBar"
+            type="button"
+            onClick={ () => setShowBar(!showBar) }
+          >
+            <img
+              className="image-profile"
+              data-testid="search-top-btn"
+              src={ searchIcon }
+              alt="imagem de uma lupa"
+            />
+          </button>
         )}
+        <Link className="link-profile" to="/profile">
+          <img
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+            alt="imagem de um ícone de perfil"
+          />
+        </Link>
+      </div>
+      <h1 className="title" data-testid="page-title">{title}</h1>
       {showBar && <SearchBar />}
     </div>
   );
