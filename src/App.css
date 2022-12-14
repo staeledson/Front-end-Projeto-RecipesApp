@@ -3,11 +3,12 @@ body {
 }
 
 .btn_start_recipe {
+  bottom: 0;
   position: fixed;
-  bottom: 0px;
 }
 
 .carouselLink {
+
   /* --padding-right: 190px; */
   max-width: 190px;
 }

@@ -7,17 +7,14 @@ import fetchSearch from '../services/fetchSearch';
 import ContextApp from '../context/ContextApp';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { RecommendationCard } from '../components/RecommendationCard';
-// import { inProgressRecipesMock } from '../tests/mockMeals';
-// import { doneRecipesMock } from '../tests/mockMeals';
-
-// localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesMock));
-// localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipesMock));
 
 function RecipeDetails() {
   const [useDetails, setUseDetails] = useState([]);
   const [useDoneRecipe, setUseDoneRecipe] = useState(false);
   const [useInProgressRecipe, setUseInProgressRecipe] = useState(false);
+  const [useLinkCopied, setUseLinkCopied] = useState(false);
   const history = useHistory();
   const { pathname } = history.location;
   const { recommendations, setRecommendations } = useContext(ContextApp);
@@ -96,6 +93,46 @@ function RecipeDetails() {
     measure = valuesApi(useDetails[0], 'strMeasure');
   }
 
+  const handleShareBtnClick = () => {
+    const shareMN = 3000;
+    navigator.clipboard.writeText(`http://localhost:3000${pathname}`);
+    setUseLinkCopied(true);
+    setTimeout(() => {
+      setUseLinkCopied(false);
+    }, shareMN);
+  };
+  const handleFavoriteBtnClick = () => {
+    if (pathname.includes('/meals')) {
+      const favoriteMeal = {
+        id: useDetails[0].idMeal,
+        type: 'meal',
+        nationality: useDetails[0].strArea,
+        category: useDetails[0].strCategory,
+        alcoholicOrNot: '',
+        name: useDetails[0].strMeal,
+        image: useDetails[0].strMealThumb,
+      };
+      localStorage.setItem('favoriteRecipes', JSON.stringify([favoriteMeal]));
+    }
+    if (pathname.includes('/drinks')) {
+      const favoriteDrink = {
+        id: useDetails[0].idDrink,
+        type: 'drink',
+        nationality: '',
+        category: useDetails[0].strCategory,
+        alcoholicOrNot: useDetails[0].strAlcoholic,
+        name: useDetails[0].strDrink,
+        image: useDetails[0].strDrinkThumb,
+      };
+      localStorage.setItem('favoriteRecipes', JSON.stringify([favoriteDrink]));
+    }
+  };
+
+  const isFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    return favorites?.some((fav) => (fav.id === getDetailsInfo().id));
+  };
+
   return (
     <div>
       <h1>Recipe Details</h1>
@@ -108,23 +145,40 @@ function RecipeDetails() {
               className="search_img"
               data-testid="recipe-photo"
             />
-            <img
-              data-testid="favorite-btn"
-              src={ whiteHeartIcon }
-              alt="favorite-btn"
-            />
-            <img
-              data-testid="share-btn"
-              src={ shareIcon }
-              alt="share-btn"
-            />
+            <button
+              className="share-button"
+              type="button"
+              onClick={ handleFavoriteBtnClick }
+            >
+              <img
+                data-testid="favorite-btn"
+                alt="favorite-btn"
+                src={ isFavorite() ? blackHeartIcon : whiteHeartIcon }
+              />
+            </button>
+
+            <button
+              className="share-button"
+              type="button"
+              onClick={ handleShareBtnClick }
+            >
+              <img
+                data-testid="share-btn"
+                src={ shareIcon }
+                alt="share-btn"
+              />
+            </button>
+            {useLinkCopied && <p>Link copied!</p>}
+
             <h2 data-testid="recipe-title">{ m.strMeal || m.strDrink }</h2>
+
             <h5>Category: </h5>
             <p data-testid="recipe-category">
               {pathname.includes('/meals')
                 ? m.strCategory : m.strAlcoholic}
 
             </p>
+
             <h5>Ingredients: </h5>
             <ul>
               {ingredients?.map(({ k }, idx) => (
@@ -136,6 +190,7 @@ function RecipeDetails() {
                 </li>
               ))}
             </ul>
+
             <h5>Intructions: </h5>
             <p data-testid="instructions">{m.strInstructions}</p>
             <iframe
@@ -143,6 +198,7 @@ function RecipeDetails() {
               src={ m.strYoutube && m.strYoutube.replace(/watch\?v=/g, 'embed/') }
               data-testid="video"
             />
+
             <h5>recommendations: </h5>
             <AliceCarousel
               items={
