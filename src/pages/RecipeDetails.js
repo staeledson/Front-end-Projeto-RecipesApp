@@ -1,14 +1,27 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css';
 import fetchDetails from '../services/fetchDetails';
 import fetchSearch from '../services/fetchSearch';
 import ContextApp from '../context/ContextApp';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import { RecommendationCard } from '../components/RecommendationCard';
+// import { inProgressRecipesMock } from '../tests/mockMeals';
+// import { doneRecipesMock } from '../tests/mockMeals';
+
+// localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesMock));
+// localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipesMock));
 
 function RecipeDetails() {
   const [useDetails, setUseDetails] = useState([]);
+  const [useDoneRecipe, setUseDoneRecipe] = useState(false);
+  const [useInProgressRecipe, setUseInProgressRecipe] = useState(false);
   const history = useHistory();
   const { pathname } = history.location;
-  const { setRecommendations } = useContext(ContextApp);
+  const { recommendations, setRecommendations } = useContext(ContextApp);
+  const cardsMagic = 6;
 
   const getDetailsInfo = () => {
     const mealsMagic = 7;
@@ -27,6 +40,10 @@ function RecipeDetails() {
     }
   };
 
+  const handleBtnStartRecipeClick = () => {
+    history.push(`${pathname}/in-progress`);
+  };
+
   useEffect(() => {
     const getDet = async () => {
       const a = await fetchDetails(getDetailsInfo());
@@ -36,16 +53,35 @@ function RecipeDetails() {
       let r = {};
       if (pathname.includes('/meals')) {
         r = await fetchSearch({}, 'drinks');
+        r.splice(cardsMagic);
         setRecommendations(r);
       }
       if (pathname.includes('/drinks')) {
         r = await fetchSearch({}, 'meals');
+        r.splice(cardsMagic);
         setRecommendations(r);
       }
-      console.log(r);
     };
+    const getLocalStorage = async () => {
+      const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+      const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
+      if (doneRecipes) {
+        setUseDoneRecipe(doneRecipes.some((dR) => (dR.id === getDetailsInfo().id)));
+      }
+      if (pathname.includes('/meals') && inProgressRecipes?.meals) {
+        setUseInProgressRecipe(Object.keys(inProgressRecipes?.meals).some((iP) => (
+          iP === getDetailsInfo().id)));
+      }
+      if (pathname.includes('/drinks') && inProgressRecipes?.drinks) {
+        setUseInProgressRecipe(Object.keys(inProgressRecipes?.drinks).some((iP) => (
+          iP === getDetailsInfo().id)));
+      }
+    };
+
     getDet();
     getrecommendations();
+    getLocalStorage();
   }, []);
 
   const valuesApi = (obj, name) => Object.entries(obj)
@@ -71,6 +107,16 @@ function RecipeDetails() {
               alt={ m.strMealThumb || m.strDrinkThumb }
               className="search_img"
               data-testid="recipe-photo"
+            />
+            <img
+              data-testid="favorite-btn"
+              src={ whiteHeartIcon }
+              alt="favorite-btn"
+            />
+            <img
+              data-testid="share-btn"
+              src={ shareIcon }
+              alt="share-btn"
             />
             <h2 data-testid="recipe-title">{ m.strMeal || m.strDrink }</h2>
             <h5>Category: </h5>
@@ -98,6 +144,42 @@ function RecipeDetails() {
               data-testid="video"
             />
             <h5>recommendations: </h5>
+            <AliceCarousel
+              items={
+                recommendations?.map((recommendation, i) => (
+                  <RecommendationCard
+                    key={ pathname.includes('/meals')
+                      ? recommendation.idDrink : recommendation.idMeal }
+                    recommendation={ recommendation }
+                    index={ i }
+                    isMeal={ !!pathname.includes('/meals') }
+                  />
+                ))
+              }
+              responsive={ { 400: { items: 2 } } }
+            />
+            {!useDoneRecipe
+              && (
+                <button
+                  type="button"
+                  className="btn_start_recipe"
+                  data-testid="start-recipe-btn"
+                  onClick={ handleBtnStartRecipeClick }
+                >
+                  Start Recipe
+                </button>
+              )}
+            {useInProgressRecipe
+              && (
+                <button
+                  type="button"
+                  className="btn_start_recipe"
+                  data-testid="start-recipe-btn"
+                  onClick={ handleBtnStartRecipeClick }
+                >
+                  Continue Recipe
+                </button>
+              )}
           </div>))}
       </div>
     </div>
