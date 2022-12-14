@@ -1,0 +1,32 @@
+.header {
+  background-color: rgb(252, 196, 54);
+  display: flex;
+  height: 3.25em;
+  justify-content: right;
+  position: relative;
+  top: 0;
+  width: 100%;
+}
+
+.link-profile, .btn-searchBar {
+  align-self: center;
+  background-color: rgb(83, 44, 142);
+  border-radius: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 4px;
+}
+
+.btn-searchBar {
+  border-style: none;
+}
+
+.title {
+  color: rgb(83, 44, 142);
+  display: flex;
+  font-weight: 900;
+  justify-content: center;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
