@@ -4,6 +4,7 @@ import ContextApp from '../context/ContextApp';
 import fetchSearch from '../services/fetchSearch';
 
 const NOT_FOUND = 'Sorry, we haven\'t found any recipes for these filters.';
+
 function SearchBar() {
   const history = useHistory();
   const { pathname } = history.location;
@@ -17,15 +18,10 @@ function SearchBar() {
   } = useContext(ContextApp);
 
   const handleSearch = ({ target }) => {
-    switch (target.name) {
-    case 'search-input':
+    if (target.name === 'search-input') {
       setSearchOptions({ ...searchOptions, inputSearch: target.value });
-      break;
-    case 'search-radio':
+    } if (target.name === 'search-radio') {
       setSearchOptions({ ...searchOptions, radioChecked: target.value });
-      break;
-    default:
-      break;
     }
   };
 
@@ -55,9 +51,8 @@ function SearchBar() {
         name="search-input"
         data-testid="search-input"
         onChange={ handleSearch }
-
       />
-      <p />
+
       <input
         type="radio"
         value="ingredient"
