@@ -3,28 +3,28 @@ import copy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
-import doneRecipesMock from '../services/mockMeals';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+// import doneRecipesMock from '../services/mockMeals';
 
 function FavoriteRecipes() {
   const history = useHistory();
   const magicTime = 1300;
   const [copyMessageMeal, setCopyMessageMeal] = useState(false);
   const [copyMessageDrink, setCopyMessageDrink] = useState(false);
-  const [doneRecipes, setDoneRecipes] = useState([]);
-  // const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const favoriteRecipesss = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
   const sendToLocalStorage = () => {
-    localStorage.setItem('favoriteRecipes', JSON.stringify(doneRecipesMock));
-    // console.log('ok');
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesss));
   };
 
-  const getDoneRecipesLocalStorage = JSON.parse(localStorage
+  const getFavoriteRecipesLocalStorage = JSON.parse(localStorage
     .getItem('favoriteRecipes')) || [];
 
   const shareMeal = async (event) => {
     setCopyMessageMeal(true);
     const foodIndex = Number(event.target.alt);
-    const filt = getDoneRecipesLocalStorage[foodIndex];
+    const filt = getFavoriteRecipesLocalStorage[foodIndex];
     await copy(`http://localhost:3000/${filt.type}s/${filt.id}`);
     setTimeout(() => { setCopyMessageMeal(false); }, magicTime);
   };
@@ -32,34 +32,35 @@ function FavoriteRecipes() {
   const shareDrink = async (event) => {
     setCopyMessageDrink(true);
     const foodIndex = Number(event.target.alt);
-    const filt = getDoneRecipesLocalStorage[foodIndex];
+    const filt = getFavoriteRecipesLocalStorage[foodIndex];
     await copy(`http://localhost:3000/${filt.type}s/${filt.id}`);
     setTimeout(() => { setCopyMessageDrink(false); }, magicTime);
   };
 
   useEffect(() => {
-    setDoneRecipes(getDoneRecipesLocalStorage);
+    setFavoriteRecipes(getFavoriteRecipesLocalStorage);
   }, []);
 
   const onlyDrinks = () => {
-    const filter = getDoneRecipesLocalStorage.filter((drink) => drink.type === 'drink');
-    setDoneRecipes(filter);
+    const filter = getFavoriteRecipesLocalStorage
+      .filter((drink) => drink.type === 'drink');
+    setFavoriteRecipes(filter);
     console.log(filter);
   };
 
   const onlyMeals = () => {
-    const filter = getDoneRecipesLocalStorage.filter((meal) => meal.type === 'meal');
-    setDoneRecipes(filter);
+    const filter = getFavoriteRecipesLocalStorage.filter((meal) => meal.type === 'meal');
+    setFavoriteRecipes(filter);
     console.log(filter);
   };
 
   const mealsAndDrinks = () => {
-    setDoneRecipes(getDoneRecipesLocalStorage);
+    setFavoriteRecipes(getFavoriteRecipesLocalStorage);
   };
 
   const mealDetails = (event) => {
     const targets = (event.target.id);
-    const filter = getDoneRecipesLocalStorage.filter((meal) => meal.name === targets);
+    const filter = getFavoriteRecipesLocalStorage.filter((meal) => meal.name === targets);
     // console.log(filter);
     history.push(`/${filter[0].type}s/${filter[0].id}`);
     console.log(filter);
@@ -68,7 +69,8 @@ function FavoriteRecipes() {
   const drinkDetails = (event) => {
     // console.log(event.target.id);
     const targets = (event.target.id);
-    const filter = getDoneRecipesLocalStorage.filter((drink) => drink.name === targets);
+    const filter = getFavoriteRecipesLocalStorage
+      .filter((drink) => drink.name === targets);
     history.push(`/${filter[0].type}s/${filter[0].id}`);
   };
 
@@ -99,7 +101,7 @@ function FavoriteRecipes() {
       >
         Drinks
       </button>
-      {(doneRecipes.length !== 0) && doneRecipes.map((meal, index) => (
+      {(favoriteRecipes.length !== 0) && favoriteRecipes.map((meal, index) => (
         (meal.type === 'meal')
           ? (
             <div key={ `${meal} ${index}` }>
@@ -137,20 +139,18 @@ function FavoriteRecipes() {
                 data-testid={ `${index}-horizontal-share-btn` }
               />
               {copyMessageMeal === true ? <p>Link copied!</p> : ''}
-              {meal.tags.map((el) => (
-                <p
-                  key={ el }
-                  data-testid={ `${index}-${el}-horizontal-tag` }
-                >
-                  {el}
-                </p>
-              ))}
+              <p />
+              <img
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                alt="favorite-btn"
+                src={ blackHeartIcon }
+              />
               <br />
             </div>
           )
           : ''
       ))}
-      {doneRecipes.map((drink, index) => (
+      {favoriteRecipes.map((drink, index) => (
         (drink.type === 'drink') ? (
           <div key={ drink.id }>
             <button
@@ -188,6 +188,13 @@ function FavoriteRecipes() {
               data-testid={ `${index}-horizontal-share-btn` }
             />
             {copyMessageDrink === true ? <p>Link copied!</p> : ''}
+            <p />
+            <input
+              type="image"
+              src={ blackHeartIcon }
+              alt={ index }
+              data-testid={ `${index}-horizontal-favorite-btn` }
+            />
           </div>
         ) : ''
       ))}
@@ -198,17 +205,6 @@ function FavoriteRecipes() {
       >
         sendToLocalStorage
       </button>
-      {/* <button
-        type="button"
-      >
-        <img
-          type="image"
-          onClick={ (event) => shareButton(event) }
-          src={ shareIcon }
-          alt={ index }
-          data-testid={ `${index}-horizontal-share-btn` }
-        />
-      </button> */}
     </div>
   );
 }
