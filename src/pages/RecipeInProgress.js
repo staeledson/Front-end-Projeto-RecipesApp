@@ -15,6 +15,7 @@ function RecipeInProgress() {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const [ingredientSelect, setIngredientSelect] = useState([]);
+  const [disable, setDisable] = useState(true);
 
   const { id } = useParams();
   const history = useHistory();
@@ -50,8 +51,10 @@ function RecipeInProgress() {
     const ingredientsArr = [];
     const measuresArr = [];
     for (let i = 1; i <= MAGIC_NUMBER; i += 1) {
-      ingredientsArr.push(data[`strIngredient${i}`]);
-      measuresArr.push(data[`strMeasure${i}`]);
+      if (data[`strIngredient${i}`]?.length > 0) {
+        ingredientsArr.push(data[`strIngredient${i}`]);
+        measuresArr.push(data[`strMeasure${i}`]);
+      }
     }
     setIngredients(ingredientsArr);
     setMeasures(measuresArr);
@@ -72,6 +75,19 @@ function RecipeInProgress() {
     }
     console.log(ingredientSelect);
   };
+
+  useEffect(() => {
+    if (ingredientSelect?.length === ingredients?.length) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+    console.log(ingredients);
+  }, [ingredients, ingredientSelect]);
+
+  useEffect(() => {
+    setDisable(true);
+  }, []);
 
   return (
     <div>
@@ -123,6 +139,8 @@ function RecipeInProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
+        disabled={ disable }
+        onClick={ () => history.push('/done-recipes') }
       >
         Finish Recipe
       </button>
