@@ -9,13 +9,12 @@ import ContextAppProvider from '../context/ContextAppProvider';
 const route = '/done-recipes';
 const linkCopy = 'Link copied!';
 
-// window.document.execCommand = jest.fn(() => true);
 describe('testa a página "done-recipes"', () => {
   beforeEach(() => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesMock));
   });
 
-  test('se a rota da página é "/done-recipes"', () => {
+  test('01 - Se a rota da página é "/done-recipes"', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
         renderWithRouter(
@@ -31,7 +30,7 @@ describe('testa a página "done-recipes"', () => {
     expect(history.location.pathname).toBe(route);
   });
 
-  test('se tem os botões na tela', () => {
+  test('02 - Se tem os botões na tela', () => {
     renderWithRouter(
       <ContextAppProvider>
         renderWithRouter(
@@ -52,7 +51,7 @@ describe('testa a página "done-recipes"', () => {
     userEvent.click(mealButton);
   });
 
-  test('se tem a mensagem "Link copied!" e se ela está visível', async () => {
+  test('03 - Se tem a mensagem "Link copied!" e se ela está visível', async () => {
     window.document.execCommand = jest.fn(() => true);
     renderWithRouter(
       <ContextAppProvider>
@@ -87,7 +86,7 @@ describe('testa a página "done-recipes"', () => {
     expect(copyMessage2).not.toBeInTheDocument();
   });
 
-  test('se ao clicar no botão do profile é redirecionado para página de profile', async () => {
+  test('04 - Se ao clicar no botão do profile é redirecionado para página de profile', async () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
         renderWithRouter(
@@ -103,11 +102,11 @@ describe('testa a página "done-recipes"', () => {
     // const profileButton = screen.findByTestId('profile-top-btn');
     // expect(profileButton).toBeInTheDocument();
     // userEvent.click(profileButton);
-  // =================================================================MENTORIA
+    // =================================================================MENTORIA
     // expect(history.location.pathname).toBe('/profile');
   });
 
-  test('se tem algo no localStorage', () => {
+  test('05 - Se tem algo no localStorage', () => {
     renderWithRouter(
       <ContextAppProvider>
         renderWithRouter(
@@ -119,7 +118,7 @@ describe('testa a página "done-recipes"', () => {
     expect(localStorage.length).toBe(1);
   });
 
-  test('se ao clicar na imagem da refeição "meal", vai para página de detalhes', () => {
+  test('06 - Se ao clicar na imagem da refeição "meal", vai para página de detalhes', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
         renderWithRouter(
@@ -138,10 +137,9 @@ describe('testa a página "done-recipes"', () => {
     userEvent.click(imgButton);
 
     expect(history.location.pathname).toBe('/meals/52771');
-    // expect(history.location.pathname).toBe(`/${filter[0].type}s/${filter[0].id}`)
   });
 
-  test('se ao clicar na imagem da bebida "drink", vai para página de detalhes', () => {
+  test('07 - Se ao clicar na imagem da bebida "drink", vai para página de detalhes', () => {
     const { history } = renderWithRouter(
       <ContextAppProvider>
         renderWithRouter(
@@ -162,7 +160,7 @@ describe('testa a página "done-recipes"', () => {
     expect(history.location.pathname).toBe('/drinks/178319');
   });
 
-  test('se ao clicar no botao de compartilhar drink, tem resultado espetado', async () => {
+  test('08 - Se ao clicar no botao de compartilhar drink, tem resultado espetado', async () => {
     window.document.execCommand = jest.fn(() => true);
     const { history } = renderWithRouter(
       <ContextAppProvider>

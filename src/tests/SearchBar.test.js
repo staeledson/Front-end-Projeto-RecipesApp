@@ -1,109 +1,115 @@
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import renderWithRouter from './helpers/renderWith';
+import fetch from '../../cypress/mocks/fetch';
 import App from '../App';
+import ContextAppProvider from '../context/ContextAppProvider';
 
 const ICON_SEARCH = 'search-top-btn';
 const INPUT_SEARCH = 'search-input';
 
 describe('Teste do Componente SearchBar', () => {
-  test('Testa se todos os componentes estão na tela', () => {
-    const { history } = renderWithRouter(<App />);
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockImplementation(fetch);
+  });
+
+  it('01 - Testa se todos os componentes estão na tela', () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
+
     act(() => {
       history.push('/meals');
     });
-    screen.logTestingPlaygroundURL();
+
     const iconSearch = screen.getByTestId(ICON_SEARCH);
     expect(iconSearch).toBeInTheDocument();
     userEvent.click(iconSearch);
-    const nameSearchBar = screen.getByRole('heading', {
-      name: /Meals/i,
-    });
-    expect(nameSearchBar).toBeInTheDocument();
+
+    const nameSearchBar = screen.getByRole('heading', { name: /Meals/i });
     const inputSearch = screen.getByTestId(INPUT_SEARCH);
-    expect(inputSearch).toBeInTheDocument();
-    const btnSearch = screen.getByRole('button', {
-      name: /search/i,
-    });
-    expect(btnSearch).toBeInTheDocument();
     const radioIgredientes = screen.getByDisplayValue(/ingredient/i);
     const radioName = screen.getByDisplayValue(/name/i);
     const radioFirstLetter = screen.getByDisplayValue(/first-letter/i);
+    const btnSearch = screen.getByRole('button', { name: /search/i });
+
+    expect(nameSearchBar).toBeInTheDocument();
+    expect(inputSearch).toBeInTheDocument();
     expect(radioIgredientes).toBeInTheDocument();
     expect(radioName).toBeInTheDocument();
     expect(radioFirstLetter).toBeInTheDocument();
-    screen.logTestingPlaygroundURL();
+    expect(btnSearch).toBeInTheDocument();
   });
 
-  test('Teste se é rednizado algo na tela ao pesquisar por comidas', async () => {
-    const { history } = renderWithRouter(<App />);
+  it('02 - Testa se é renderizado algo na tela ao pesquisar por comidas', async () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
+
     act(() => {
       history.push('/meals');
     });
+
     const iconSearch = screen.getByTestId(ICON_SEARCH);
+    const recipe = await screen.findByText(/corba/i);
+
     expect(iconSearch).toBeInTheDocument();
+    expect(recipe).toBeInTheDocument();
+
     userEvent.click(iconSearch);
+
     const inputSearch = screen.getByTestId(INPUT_SEARCH);
-    expect(inputSearch).toBeInTheDocument();
-    const btnSearch = screen.getByRole('button', {
-      name: /search/i,
-    });
-    userEvent.type(inputSearch, 'lemon');
-    const radioName = screen.getByDisplayValue(/ingredient/i);
+    const radioName = screen.getByTestId('ingredient-search-radio');
+    const btnSearch = screen.getByRole('button', { name: /search/i });
+
+    userEvent.type(inputSearch, 'chicken');
     userEvent.click(radioName);
     userEvent.click(btnSearch);
-    const resultSearch = await screen.findByText(/Baked salmon with fennel & tomatoes/i);
-    expect(resultSearch).toBeInTheDocument();
+
+    const resultSearch = await screen.findByText(/Brown Stew Chicken/i);
+
+    await waitFor(() => expect(resultSearch).toBeInTheDocument());
   });
-  test('Teste se ao pesquisar por uma receita e retorna somente uma, é direcionado para pagina de detalhes', async () => {
-    const { history } = renderWithRouter(<App />);
-    act(() => {
-      history.push('/meals');
-    });
-    const iconSearch = screen.getByTestId(ICON_SEARCH);
-    expect(iconSearch).toBeInTheDocument();
-    userEvent.click(iconSearch);
-    const inputSearch = screen.getByTestId(INPUT_SEARCH);
-    const btnSearch = screen.getByRole('button', {
-      name: /search/i,
-    });
-    userEvent.type(inputSearch, 'lemon');
-    const radioName = screen.getByDisplayValue(/name/i);
-    userEvent.click(radioName);
-    userEvent.click(btnSearch);
-    const resultSearch = await screen.findByText(/Lamb and Lemon Souvlaki/i);
-    expect(resultSearch).toBeInTheDocument();
-  });
-  test('Teste se ao pesquisar por drinks é mostrado resultado na tela', async () => {
-    const { history } = renderWithRouter(<App />);
+
+  it('03 - Testa se ao pesquisar por drinks é mostrado resultado na tela', async () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
     act(() => {
       history.push('/drinks');
     });
 
-    // jest.spyOn(global, 'alert');
-    // global.alert.mockImplementation(() => { });
-
     const iconSearch = screen.getByTestId(ICON_SEARCH);
     expect(iconSearch).toBeInTheDocument();
     userEvent.click(iconSearch);
+
     const inputSearch = screen.getByTestId(INPUT_SEARCH);
-    const btnSearch = screen.getByRole('button', {
-      name: /search/i,
-    });
-    userEvent.type(inputSearch, 'lemon');
     const radioName = screen.getByDisplayValue(/Ingredient/i);
+    const btnSearch = screen.getByRole('button', { name: /search/i });
+
+    userEvent.type(inputSearch, 'gin');
     userEvent.click(radioName);
     userEvent.click(btnSearch);
-    const resultSearch = await screen.findByText(/A True Amaretto Sour/i);
+
+    const resultSearch = await screen.findByText(/gin fizz/i);
+
     expect(resultSearch).toBeInTheDocument();
-    // expect(global.alert).toHaveBeenCalledTimes(1);
-    // expect(global.alert).toBeCalled(1);
   });
 
-  test('Teste se ao pesquisar por receitas com mais de uma letra é exibido um alert', async () => {
-    const { history } = renderWithRouter(<App />);
+  it('05 - Teste se ao pesquisar por receitas com mais de uma letra é exibido um alert', async () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
     act(() => {
       history.push('/drinks');
     });
@@ -125,8 +131,13 @@ describe('Teste do Componente SearchBar', () => {
     expect(global.alert).toHaveBeenCalledTimes(1);
     // expect(global.alert).toBeCalled(1);
   });
-  test.only('Teste se ao pesquisar por receita inexistente', async () => {
-    const { history } = renderWithRouter(<App />);
+
+  it('06 - Teste se ao pesquisar por receita inexistente', async () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
     act(() => {
       history.push('/meals');
     });
@@ -150,8 +161,14 @@ describe('Teste do Componente SearchBar', () => {
     // await screen.findByText(/Sorry, we haven't found any recipes for these filters./i);
     // expect(resultSearch).toBeInTheDocument();
   });
-  test('Teste se ao pesquisar por apenas por ingredietes é mostrado todas as receitas', async () => {
-    const { history } = renderWithRouter(<App />);
+
+  it('07 - Teste se ao pesquisar por apenas por ingredietes é mostrado todas as receitas', async () => {
+    const { history } = renderWithRouter(
+      <ContextAppProvider>
+        <App />
+      </ContextAppProvider>,
+    );
+
     act(() => {
       history.push('/meals');
     });

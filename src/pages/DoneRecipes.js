@@ -11,11 +11,9 @@ function DoneRecipes() {
   const [copyMessageMeal, setCopyMessageMeal] = useState(false);
   const [copyMessageDrink, setCopyMessageDrink] = useState(false);
   const [doneRecipes, setDoneRecipes] = useState([]);
-  // const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
 
   const sendToLocalStorage = () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesMock));
-    // console.log('ok');
   };
 
   const getDoneRecipesLocalStorage = JSON.parse(localStorage
@@ -44,13 +42,11 @@ function DoneRecipes() {
   const onlyDrinks = () => {
     const filter = getDoneRecipesLocalStorage.filter((drink) => drink.type === 'drink');
     setDoneRecipes(filter);
-    console.log(filter);
   };
 
   const onlyMeals = () => {
     const filter = getDoneRecipesLocalStorage.filter((meal) => meal.type === 'meal');
     setDoneRecipes(filter);
-    console.log(filter);
   };
 
   const mealsAndDrinks = () => {
@@ -60,13 +56,10 @@ function DoneRecipes() {
   const mealDetails = (event) => {
     const targets = (event.target.id);
     const filter = getDoneRecipesLocalStorage.filter((meal) => meal.name === targets);
-    // console.log(filter);
     history.push(`/${filter[0].type}s/${filter[0].id}`);
-    console.log(filter);
   };
 
   const drinkDetails = (event) => {
-    // console.log(event.target.id);
     const targets = (event.target.id);
     const filter = getDoneRecipesLocalStorage.filter((drink) => drink.name === targets);
     history.push(`/${filter[0].type}s/${filter[0].id}`);
@@ -74,7 +67,6 @@ function DoneRecipes() {
 
   return (
     <div>
-      {/* <Header /> */}
       <Header title="Done Recipes" />
       <br />
       <br />
@@ -104,7 +96,6 @@ function DoneRecipes() {
           ? (
             <div key={ `${meal} ${index}` }>
               <button
-                // data-testid="botao"
                 type="button"
                 onClick={ (event) => mealDetails(event) }
               >
@@ -198,17 +189,6 @@ function DoneRecipes() {
       >
         sendToLocalStorage
       </button>
-      {/* <button
-        type="button"
-      >
-        <img
-          type="image"
-          onClick={ (event) => shareButton(event) }
-          src={ shareIcon }
-          alt={ index }
-          data-testid={ `${index}-horizontal-share-btn` }
-        />
-      </button> */}
     </div>
   );
 }
